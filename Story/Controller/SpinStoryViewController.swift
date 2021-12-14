@@ -15,7 +15,7 @@ class SpinStoryViewController: UIViewController {
         return layout
     }()
     
-    public lazy var topStoryCollectionView = StoryCollectionView(frame: .zero, collectionViewLayout: horizontalLayout, isVertical: false)
+    public lazy var topStoryCollectionView = StoryCollectionView(frame: .zero, collectionViewLayout: horizontalLayout, isVertical: false, isTop: false)
     
     private let verticalLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -24,7 +24,7 @@ class SpinStoryViewController: UIViewController {
     }()
     
     public lazy var choicesStoryCollectionView: StoryCollectionView = {
-        let view = StoryCollectionView(frame: .zero, collectionViewLayout: verticalLayout, isVertical: true)
+        let view = StoryCollectionView(frame: .zero, collectionViewLayout: verticalLayout, isVertical: true, isTop: false)
         view.delegateForSpinViewController = self
         return view
     }()
@@ -160,8 +160,7 @@ class SpinStoryViewController: UIViewController {
         topStoryCollectionView.anchor(top: categoryTitleIcon.bottomAnchor,
                                       left: view.leftAnchor,
                                       right: view.rightAnchor,
-                                      paddingTop: 20,
-                                      height: 150)
+                                      paddingTop: 20, height: 150)
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -196,6 +195,15 @@ extension SpinStoryViewController: HeroViewControllerDelegate {
                                           paddingTop: 30)
         choicesStoryCollectionView.backgroundColor = .systemGreen
         
+        view.addSubview(topStoryCollectionView)
+        topStoryCollectionView.anchor(top: categoryTitleIcon.bottomAnchor,
+                                      left: view.leftAnchor,
+                                      bottom: choicesStoryCollectionView.topAnchor,
+                                      right: view.rightAnchor,
+                                      paddingTop: 20, paddingBottom: 20)
+        
+        view.layoutIfNeeded()
+        
         view.addSubview(actionSheet)
         actionSheet.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
     }
@@ -204,6 +212,7 @@ extension SpinStoryViewController: HeroViewControllerDelegate {
 // MARK: - storyViewDelegateForSpinViewController
 
 extension SpinStoryViewController: storyViewDelegateForSpinViewController {
+    
     func didSelectNextStory(selectedCell: StoryViewCell) {
         
         let story = selectedCell.returnStory()

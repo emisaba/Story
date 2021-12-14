@@ -16,6 +16,7 @@ class TopCollectionView: UIView {
     
     public lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.dataSource = self
         cv.delegate = self
@@ -147,14 +148,18 @@ extension TopCollectionView: UICollectionViewDelegate {
             return CGSize(width: frame.width, height: frame.height - keyboardHeight)
             
         case .spin:
-            let frame = CGRect(x: 0, y: 0, width: frame.width, height: 180)
-            let estimatedSizeCell = StoryViewCell(frame: frame)
-            estimatedSizeCell.layoutIfNeeded()
-
-            let targetSize = CGSize(width: frame.width, height: 1000)
-            let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
-
-            return CGSize(width: frame.width - 40, height: estimatedSize.height)
+            
+            let story = miniStories[indexPath.row].story
+            let apporoximateWidth = frame.width - 40
+            let size = CGSize(width: apporoximateWidth, height: 1000)
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16)]
+            let estimatedFrame = NSString(string: story)
+                .boundingRect(with: size,
+                              options: .usesLineFragmentOrigin,
+                              attributes: attributes,
+                              context: nil)
+        
+            return CGSize(width: frame.width, height: estimatedFrame.height + 100)
             
         case .read:
             let frame = CGRect(x: 0, y: 0, width: frame.width, height: 180)

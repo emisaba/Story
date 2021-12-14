@@ -11,7 +11,7 @@ class SpinStoryViewCell: UICollectionViewCell {
     }()
     
     public lazy var storyCollectionView: StoryCollectionView = {
-        let view = StoryCollectionView(frame: .zero, collectionViewLayout: layout, isVertical: false)
+        let view = StoryCollectionView(frame: .zero, collectionViewLayout: layout, isVertical: false, isTop: true)
         return view
     }()
     

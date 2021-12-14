@@ -86,6 +86,14 @@ class StoryViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let height = textView.sizeThatFits(CGSize(width: textView.frame.size.width,
+                                                  height: CGFloat.greatestFiniteMagnitude)).height
+        textView.heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         

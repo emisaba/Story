@@ -19,6 +19,9 @@ class StoryCollectionView: UICollectionView {
     private var isVertical = false {
         didSet { reloadData() }
     }
+    private var isTop = false {
+        didSet { reloadData() }
+    }
     
     public var miniStories = [MiniStory]() {
         didSet {
@@ -29,8 +32,9 @@ class StoryCollectionView: UICollectionView {
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout, isVertical: Bool) {
+    init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout, isVertical: Bool, isTop: Bool) {
         self.isVertical = isVertical
+        self.isTop = isTop
         super.init(frame: frame, collectionViewLayout: layout)
         
         configureUI()
@@ -74,16 +78,19 @@ extension StoryCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let height = isVertical ? frame.height / 4 : frame.height
-        let frame = CGRect(x: 0, y: 0, width: frame.width, height: height)
+        let story = miniStories[indexPath.row].story
+        let apporoximateWidth = frame.width - 55
+        let size = CGSize(width: apporoximateWidth, height: 1000)
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16)]
+        let estimatedFrame = NSString(string: story)
+            .boundingRect(with: size,
+                          options: .usesLineFragmentOrigin,
+                          attributes: attributes,
+                          context: nil)
         
-        let estimatedSizeCell = StoryViewCell(frame: frame)
-        estimatedSizeCell.layoutIfNeeded()
+        let estimatedHeight = isTop ? frame.height : estimatedFrame.height + 100
 
-        let targetSize = CGSize(width: frame.width, height: 1000)
-        let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
-
-        return .init(width: frame.width, height: estimatedSize.height)
+        return .init(width: frame.width, height: estimatedHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
