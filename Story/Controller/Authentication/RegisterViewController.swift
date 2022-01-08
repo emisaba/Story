@@ -4,7 +4,7 @@ class RegisterViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let iconImageButton = UIButton.createImageButton(target: self, action: #selector(didTapIconImageButton))
+    private let iconImageButton = UIButton.createImageButton(target: self, action: #selector(didTapIconImageButton), image: #imageLiteral(resourceName: "arrow"))
     private let emailTextField = UITextField.createTextField(placeholder: "email")
     private let passwordTextField = UITextField.createTextField(placeholder: "password")
     private let userNameTextField = UITextField.createTextField(placeholder: "username")

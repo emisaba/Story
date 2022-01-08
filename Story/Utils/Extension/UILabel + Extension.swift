@@ -25,6 +25,12 @@ extension UILabel {
         label.textColor = .lightGray
         label.font = .systemFont(ofSize: size)
         label.textAlignment = alignment
+        
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen().withAlphaComponent(0.5),
+                                                         .font: UIFont.pierSansRegular(size: 18),
+                                                         .kern: 1]
+        label.attributedText = NSAttributedString(string: text, attributes: attributes)
+        
         return label
     }
 }

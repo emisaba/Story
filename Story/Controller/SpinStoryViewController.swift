@@ -6,9 +6,6 @@ class SpinStoryViewController: UIViewController {
     
     // MARK: - Properties
     
-    public let categoryTitleLabel = UILabel.createLabel(text: "ダミー", size: 14, alignment: .left)
-    public let categoryTitleIcon = UIImageView.createIconImageView()
-    
     private let horizontalLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -31,12 +28,12 @@ class SpinStoryViewController: UIViewController {
     
     private let saveButton = UIButton.createTextButton(text: "complete", target: self, action: #selector(didTapCompleteButton))
     private let addButton = UIButton.createTextButton(text: "add", target: self, action: #selector(didTapAddButton))
-    private let closeButton = UIButton.createImageButton(target: self, action: #selector(didTapCloseButton))
+    private let closeButton = UIButton.createImageButton(target: self, action: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow"))
 
     private lazy var actionSheet: CustomActionSheet = {
         let sheet = CustomActionSheet()
         sheet.layer.cornerRadius = 20
-        sheet.backgroundColor = .white
+        sheet.backgroundColor = .customGreen()
         sheet.layer.cornerRadius = 15
         sheet.delegate = self
         return sheet
@@ -143,31 +140,19 @@ class SpinStoryViewController: UIViewController {
     // MARK: - Helpers
     
     func configureUI() {
-        view.backgroundColor = .systemPink
-        
-        view.addSubview(categoryTitleLabel)
-        categoryTitleLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor)
-        categoryTitleLabel.centerX(inView: view)
-        
-        view.addSubview(categoryTitleIcon)
-        categoryTitleIcon.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                         right: categoryTitleLabel.leftAnchor,
-                         paddingRight: 10)
-        categoryTitleIcon.setDimensions(height: 50, width: 50)
-        categoryTitleIcon.centerY(inView: categoryTitleLabel)
+        view.backgroundColor = .customGreen()
         
         view.addSubview(topStoryCollectionView)
-        topStoryCollectionView.anchor(top: categoryTitleIcon.bottomAnchor,
+        topStoryCollectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                       left: view.leftAnchor,
                                       right: view.rightAnchor,
-                                      paddingTop: 20, height: 150)
+                                      paddingTop: 30, height: 150)
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                           right: view.rightAnchor,
-                           paddingRight: 20)
+                           left: view.leftAnchor,
+                           paddingLeft: 10)
         closeButton.setDimensions(height: 50, width: 50)
-        closeButton.centerY(inView: categoryTitleIcon)
     }
 }
 
@@ -180,12 +165,22 @@ extension SpinStoryViewController: HeroViewControllerDelegate {
         let bottomStackView = UIStackView(arrangedSubviews: [saveButton, addButton])
         bottomStackView.axis = .horizontal
         bottomStackView.distribution = .fillEqually
+        bottomStackView.backgroundColor = .lightGray.withAlphaComponent(0.2)
         
         view.addSubview(bottomStackView)
         bottomStackView.anchor(left: view.leftAnchor,
-                               bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                               bottom: view.bottomAnchor,
                                right: view.rightAnchor,
-                               height: 50)
+                               height: 90)
+
+        let bottoStackViewDivider = UIView()
+        bottoStackViewDivider.backgroundColor = .white
+
+        view.addSubview(bottoStackViewDivider)
+        bottoStackViewDivider.centerX(inView: view)
+        bottoStackViewDivider.centerY(inView: bottomStackView)
+        bottoStackViewDivider.setDimensions(height: 10, width: 10)
+        bottoStackViewDivider.layer.cornerRadius = 5
         
         view.addSubview(choicesStoryCollectionView)
         choicesStoryCollectionView.anchor(top: topStoryCollectionView.bottomAnchor,
@@ -193,14 +188,14 @@ extension SpinStoryViewController: HeroViewControllerDelegate {
                                           bottom: bottomStackView.topAnchor,
                                           right: view.rightAnchor,
                                           paddingTop: 30)
-        choicesStoryCollectionView.backgroundColor = .systemGreen
+        choicesStoryCollectionView.backgroundColor = .customGreen()
         
         view.addSubview(topStoryCollectionView)
-        topStoryCollectionView.anchor(top: categoryTitleIcon.bottomAnchor,
+        topStoryCollectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                       left: view.leftAnchor,
                                       bottom: choicesStoryCollectionView.topAnchor,
                                       right: view.rightAnchor,
-                                      paddingTop: 20, paddingBottom: 20)
+                                      paddingTop: 30, paddingBottom: 20)
         
         view.layoutIfNeeded()
         

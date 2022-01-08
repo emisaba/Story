@@ -6,21 +6,22 @@ class CustomSegmentCell: UICollectionViewCell {
     // MARK: - Properties
     
     public var cellType: CellType = .read {
-        didSet { setupAnimation(cellType: cellType) }
+        didSet {
+            setupAnimation(cellType: cellType)
+            setupTitle(cellType: cellType)
+        }
     }
     
     public let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 14)
-        label.text = "ダミー"
         return label
     }()
     
     public let imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
-        iv.backgroundColor = .systemYellow
+        iv.backgroundColor = .lightGray.withAlphaComponent(0.2)
         iv.layer.cornerRadius = 40
         return iv
     }()
@@ -65,5 +66,22 @@ class CustomSegmentCell: UICollectionViewCell {
         lottieAnimation.loopMode = .playOnce
         lottieAnimation.play()
         imageView.addSubview(lottieAnimation)
+    }
+    
+    func setupTitle(cellType: CellType) {
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white,
+                                                         .font: UIFont.gaeguBold(size: 22),
+                                                         .kern: 2]
+        
+        switch cellType {
+        case .read:
+            titleLabel.attributedText = NSAttributedString(string: "READ", attributes: attributes)
+            
+        case .spin:
+            titleLabel.attributedText = NSAttributedString(string: "SPIN", attributes: attributes)
+            
+        case .begin:
+            titleLabel.attributedText = NSAttributedString(string: "BEGIN", attributes: attributes)
+        }
     }
 }

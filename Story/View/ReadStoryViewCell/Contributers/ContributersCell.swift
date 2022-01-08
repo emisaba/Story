@@ -11,7 +11,6 @@ class ContributersCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .systemBlue
         iv.layer.cornerRadius = 25
         iv.layer.borderWidth = 1
         iv.layer.borderColor = UIColor.white.cgColor

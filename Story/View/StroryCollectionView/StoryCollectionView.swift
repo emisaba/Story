@@ -47,6 +47,7 @@ class StoryCollectionView: UICollectionView {
     // MARK: - Helper
     
     func configureUI() {
+        backgroundColor = .customGreen().withAlphaComponent(0.1)
         dataSource = self
         delegate = self
         register(StoryViewCell.self, forCellWithReuseIdentifier: identifier)
@@ -63,7 +64,7 @@ extension StoryCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! StoryViewCell
-        cell.backgroundColor = .systemYellow
+        cell.backgroundColor = .customGreen()
         cell.delegateForTopViewController = self
         cell.delegateForSpinViewController = self
         cell.viewModel = MiniStoryViewModel(story: miniStories[indexPath.row], cellNumber: indexPath.row, isVartical: isVertical)

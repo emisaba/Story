@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		824654B727892818002BD067 /* PierSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 824654A527892817002BD067 /* PierSans-Regular.otf */; };
+		824654B827892818002BD067 /* PierSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 824654A627892817002BD067 /* PierSans-Light.otf */; };
+		824654BA278928C5002BD067 /* UIFont + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824654B9278928C5002BD067 /* UIFont + Extension.swift */; };
+		824654BC27892BF6002BD067 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824654BB27892BF6002BD067 /* UIColor + Extension.swift */; };
+		8246554027894017002BD067 /* Gaegu-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8246551E27894017002BD067 /* Gaegu-Light.ttf */; };
+		8246554127894017002BD067 /* Gaegu-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8246551F27894017002BD067 /* Gaegu-Regular.ttf */; };
+		8246554227894017002BD067 /* Gaegu-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8246552027894017002BD067 /* Gaegu-Bold.ttf */; };
+		8246554527896514002BD067 /* PierSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8246554427896514002BD067 /* PierSans-Bold.otf */; };
 		828E2EF1275482CC0011B287 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828E2EF0275482CC0011B287 /* AppDelegate.swift */; };
 		828E2EF3275482CC0011B287 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828E2EF2275482CC0011B287 /* SceneDelegate.swift */; };
 		828E2EF5275482CC0011B287 /* BeginningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828E2EF4275482CC0011B287 /* BeginningViewController.swift */; };
@@ -59,6 +67,14 @@
 
 /* Begin PBXFileReference section */
 		6B57477A12CF0C8302050457 /* Pods-Story.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Story.debug.xcconfig"; path = "Target Support Files/Pods-Story/Pods-Story.debug.xcconfig"; sourceTree = "<group>"; };
+		824654A527892817002BD067 /* PierSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PierSans-Regular.otf"; sourceTree = "<group>"; };
+		824654A627892817002BD067 /* PierSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PierSans-Light.otf"; sourceTree = "<group>"; };
+		824654B9278928C5002BD067 /* UIFont + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + Extension.swift"; sourceTree = "<group>"; };
+		824654BB27892BF6002BD067 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
+		8246551E27894017002BD067 /* Gaegu-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gaegu-Light.ttf"; sourceTree = "<group>"; };
+		8246551F27894017002BD067 /* Gaegu-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gaegu-Regular.ttf"; sourceTree = "<group>"; };
+		8246552027894017002BD067 /* Gaegu-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gaegu-Bold.ttf"; sourceTree = "<group>"; };
+		8246554427896514002BD067 /* PierSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PierSans-Bold.otf"; sourceTree = "<group>"; };
 		828E2EED275482CC0011B287 /* Story.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Story.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		828E2EF0275482CC0011B287 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		828E2EF2275482CC0011B287 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +148,35 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		82465491278927F5002BD067 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				8246551D27894017002BD067 /* Gaegu */,
+				8246549C27892817002BD067 /* PierSans-FreeForPersonalUse */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		8246549C27892817002BD067 /* PierSans-FreeForPersonalUse */ = {
+			isa = PBXGroup;
+			children = (
+				824654A527892817002BD067 /* PierSans-Regular.otf */,
+				824654A627892817002BD067 /* PierSans-Light.otf */,
+				8246554427896514002BD067 /* PierSans-Bold.otf */,
+			);
+			path = "PierSans-FreeForPersonalUse";
+			sourceTree = "<group>";
+		};
+		8246551D27894017002BD067 /* Gaegu */ = {
+			isa = PBXGroup;
+			children = (
+				8246551E27894017002BD067 /* Gaegu-Light.ttf */,
+				8246551F27894017002BD067 /* Gaegu-Regular.ttf */,
+				8246552027894017002BD067 /* Gaegu-Bold.ttf */,
+			);
+			path = Gaegu;
+			sourceTree = "<group>";
+		};
 		828E2EE4275482CC0011B287 = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +219,7 @@
 		828E2F04275482FB0011B287 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				82465491278927F5002BD067 /* Font */,
 				828E2F3F2756561D0011B287 /* lottie */,
 				828E2F3E275647370011B287 /* Extension */,
 			);
@@ -310,6 +356,8 @@
 				828E2F522757EB030011B287 /* UIImageView + Extension.swift */,
 				828E2F572757EDD80011B287 /* UITextView + Extension.swift */,
 				828E2F592758AB9F0011B287 /* UITextField + Extension.swift */,
+				824654B9278928C5002BD067 /* UIFont + Extension.swift */,
+				824654BB27892BF6002BD067 /* UIColor + Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -417,10 +465,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8246554027894017002BD067 /* Gaegu-Light.ttf in Resources */,
 				828E2EFD275482D60011B287 /* LaunchScreen.storyboard in Resources */,
+				824654B727892818002BD067 /* PierSans-Regular.otf in Resources */,
 				828E2EFA275482D60011B287 /* Assets.xcassets in Resources */,
+				8246554227894017002BD067 /* Gaegu-Bold.ttf in Resources */,
+				824654B827892818002BD067 /* PierSans-Light.otf in Resources */,
 				828E2EF8275482CD0011B287 /* Main.storyboard in Resources */,
 				828E2F43275656480011B287 /* read.json in Resources */,
+				8246554127894017002BD067 /* Gaegu-Regular.ttf in Resources */,
+				8246554527896514002BD067 /* PierSans-Bold.otf in Resources */,
 				828E2F412756562B0011B287 /* begin.json in Resources */,
 				828E2F4B2757AAD00011B287 /* GoogleService-Info.plist in Resources */,
 			);
@@ -487,10 +541,12 @@
 				828E2F5A2758ABA00011B287 /* UITextField + Extension.swift in Sources */,
 				828E2EF5275482CC0011B287 /* BeginningViewController.swift in Sources */,
 				828E2EF1275482CC0011B287 /* AppDelegate.swift in Sources */,
+				824654BA278928C5002BD067 /* UIFont + Extension.swift in Sources */,
 				828E2EF3275482CC0011B287 /* SceneDelegate.swift in Sources */,
 				828E2F342755B2E00011B287 /* SpinStoryViewController.swift in Sources */,
 				828E2F30275509600011B287 /* UILabel + Extension.swift in Sources */,
 				828E2F562757ED0C0011B287 /* CustomActionSheet.swift in Sources */,
+				824654BC27892BF6002BD067 /* UIColor + Extension.swift in Sources */,
 				828E2F0E2754858E0011B287 /* UIView + Extension.swift in Sources */,
 				828E2F32275510500011B287 /* CellType.swift in Sources */,
 				828E2F6E275B0AF90011B287 /* StoryInfo.swift in Sources */,

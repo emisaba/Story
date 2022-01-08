@@ -6,14 +6,14 @@ class MypageViewController: UIViewController {
     // MARK: - Properties
     
     public let userIcon = UIImageView.createIconImageView()
-    private let closeButton = UIButton.createImageButton(target: self, action: #selector(didTapCloseButton))
+    private let closeButton = UIButton.createImageButton(target: self, action: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow"))
     
     private lazy var readStoryButton = createButton(text: "read", action: #selector(didTapReadButton))
     private lazy var spinStoryButton = createButton(text: "spin", action: #selector(didTapSpinButton))
     private lazy var startStoryButton = createButton(text: "start", action: #selector(didTapStartButton))
     private let logoutButton = UIButton.createTextButton(text: "logout", target: self, action: #selector(didTapLogoutButton))
     
-    private let topPageButton = UIButton.createImageButton(target: self, action: #selector(didTapTopPageButton))
+    private let topPageButton = UIButton.createImageButton(target: self, action: #selector(didTapTopPageButton), image: #imageLiteral(resourceName: "arrow"))
     private let topPageButtonBaseView = UIView.createButtonBaseView(isTop: true)
     
     // MARK: - LifeCycle

@@ -18,14 +18,14 @@ class CustomSegmentControl: UIView {
         cv.dataSource = self
         cv.delegate = self
         cv.register(CustomSegmentCell.self, forCellWithReuseIdentifier: identifier)
-        cv.backgroundColor = .systemPurple
+        cv.backgroundColor = .customGreen()
         return cv
     }()
     
     public let pointer: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 6
-        view.backgroundColor = .systemPink
+        view.backgroundColor = .customYellow()
         return view
     }()
     
@@ -33,7 +33,7 @@ class CustomSegmentControl: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemGray
+        backgroundColor = .customGreen()
         
         addSubview(collectionView)
         collectionView.anchor(top: topAnchor,

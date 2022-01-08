@@ -12,15 +12,15 @@ class CustomActionSheet: UIView {
     
     public var delegate: CustomActionSheetDelegate?
     
-    public lazy var cancelButton = UIButton.createTextButton(text: "cancel", target: self, action: #selector(didTapCancelButton))
+    public lazy var cancelButton = UIButton.createImageButton(target: self, action: #selector(didTapCancelButton), image: #imageLiteral(resourceName: "close"))
     public lazy var registerButton = UIButton.createTextButton(text: "register", target: self, action: #selector(didTapRegisterButton))
     
     public lazy var textView = UITextView.createRegisterStoryTextView()
-    private let placeholderLabel = UILabel.createLabel(text: "Lets's start story", size: 16, alignment: .left)
+    private let placeholderLabel = UILabel.createLabel(text: "Lets's add story", size: 16, alignment: .left)
     private let countLabel = UILabel.createLabel(text: "0 / 140", size: 16, alignment: .right)
     
-    private let categoryTextField = UITextField.createTextField(placeholder: "カテゴリ")
-    private let titleTextField = UITextField.createTextField(placeholder: "タイトル")
+    private let categoryTextField = UITextField.createTextField(placeholder: "category")
+    private let titleTextField = UITextField.createTextField(placeholder: "title")
     
     public var isAdd = false {
         didSet {
@@ -43,15 +43,8 @@ class CustomActionSheet: UIView {
         cancelButton.anchor(top: safeAreaLayoutGuide.topAnchor,
                             left: leftAnchor,
                             paddingTop: 20,
-                            paddingLeft: 20)
-        cancelButton.setDimensions(height: 20, width: 100)
-        
-        addSubview(registerButton)
-        registerButton.anchor(top: safeAreaLayoutGuide.topAnchor,
-                              right: rightAnchor,
-                              paddingTop: 20,
-                              paddingRight: 20)
-        registerButton.setDimensions(height: 20, width: 100)
+                            paddingLeft: 10)
+        cancelButton.setDimensions(height: 50, width: 50)
     }
     
     required init?(coder: NSCoder) {
@@ -74,6 +67,7 @@ class CustomActionSheet: UIView {
     }
     
     @objc func didTapCancelButton() {
+        endEditing(true)
         delegate?.cancel()
     }
     
@@ -84,7 +78,7 @@ class CustomActionSheet: UIView {
         textView.delegate = self
         
         addSubview(textView)
-        textView.anchor(top: registerButton.bottomAnchor,
+        textView.anchor(top: cancelButton.bottomAnchor,
                         left: leftAnchor,
                         right: rightAnchor,
                         paddingTop: 20,
@@ -96,7 +90,8 @@ class CustomActionSheet: UIView {
         placeholderLabel.anchor(top: textView.topAnchor,
                                 left: textView.leftAnchor,
                                 right: textView.rightAnchor,
-                                paddingLeft: 10, height: 40)
+                                paddingTop: 10,
+                                paddingLeft: 13)
         
         addSubview(countLabel)
         countLabel.anchor(bottom: textView.bottomAnchor,
@@ -104,27 +99,62 @@ class CustomActionSheet: UIView {
                           paddingBottom: 10,
                           paddingRight: 30,
                           height: 20)
+        
+        addSubview(registerButton)
+        registerButton.layer.borderWidth = 2
+        registerButton.layer.borderColor = UIColor.white.cgColor
+        registerButton.anchor(top: textView.bottomAnchor,
+                              paddingTop: 30)
+        registerButton.centerX(inView: self)
+        registerButton.setDimensions(height: 60, width: 160)
     }
     
     func setupCompleteView() {
         
+        categoryTextField.delegate = self
+        titleTextField.delegate = self
+        
         addSubview(categoryTextField)
-        categoryTextField.anchor(top: registerButton.bottomAnchor,
+        categoryTextField.anchor(top: cancelButton.bottomAnchor,
                                  left: leftAnchor,
                                  right: rightAnchor,
                                  paddingTop: 50,
-                                 paddingLeft: 20,
-                                 paddingRight: 20,
-                                 height: 50)
+                                 paddingLeft: 30,
+                                 paddingRight: 30,
+                                 height: 60)
+        
+        let categoryBottomView = UIView()
+        categoryBottomView.backgroundColor = .white
+        addSubview(categoryBottomView)
+        categoryBottomView.anchor(left: categoryTextField.leftAnchor,
+                                  bottom: categoryTextField.bottomAnchor,
+                                  right: categoryTextField.rightAnchor,
+                                  height: 0.5)
         
         addSubview(titleTextField)
         titleTextField.anchor(top: categoryTextField.bottomAnchor,
-                                 left: leftAnchor,
-                                 right: rightAnchor,
-                                 paddingTop: 20,
-                                 paddingLeft: 20,
-                                 paddingRight: 20,
-                                 height: 50)
+                              left: leftAnchor,
+                              right: rightAnchor,
+                              paddingTop: 20,
+                              paddingLeft: 30,
+                              paddingRight: 30,
+                              height: 60)
+        
+        let titleBottomView = UIView()
+        titleBottomView.backgroundColor = .white
+        addSubview(titleBottomView)
+        titleBottomView.anchor(left: titleTextField.leftAnchor,
+                               bottom: titleTextField.bottomAnchor,
+                               right: titleTextField.rightAnchor,
+                               height: 0.5)
+        
+        addSubview(registerButton)
+        registerButton.layer.borderWidth = 2
+        registerButton.layer.borderColor = UIColor.white.cgColor
+        registerButton.anchor(top: titleTextField.bottomAnchor,
+                              paddingTop: 70)
+        registerButton.centerX(inView: self)
+        registerButton.setDimensions(height: 60, width: 160)
     }
     
     func removeViews(views: [UIView]) {
@@ -139,7 +169,34 @@ extension CustomActionSheet: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
         
-        countLabel.text = "\(textView.text.count) / 140"
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
+                                                         .font: UIFont.pierSansRegular(size: 18),
+                                                         .kern: 1]
+        
+        textView.attributedText = NSAttributedString(string: textView.text, attributes: attributes)
+        
+        let countAttributedText = NSMutableAttributedString(string: "\(textView.text.count)", attributes: attributes)
+        countAttributedText.append(NSAttributedString(string: "/140", attributes: attributes))
+        countLabel.attributedText = countAttributedText
+        
         if textView.text.count > 140 { textView.deleteBackward() }
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension CustomActionSheet: UITextFieldDelegate {
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white,
+                                                         .font: UIFont.pierSansRegular(size: 18),
+                                                         .kern: 1]
+        switch textField {
+        case categoryTextField:
+            textField.attributedText = NSAttributedString(string: textField.text ?? "", attributes: attributes)
+        case titleTextField:
+            titleTextField.attributedText = NSAttributedString(string: textField.text ?? "", attributes: attributes)
+        default: break
+        }
     }
 }

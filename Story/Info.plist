@@ -58,5 +58,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PierSans-Bold.otf</string>
+		<string>PierSans-Regular.otf</string>
+		<string>PierSans-Light.otf</string>
+		<string>Gaegu-Bold.ttf</string>
+	</array>
 </dict>
 </plist>

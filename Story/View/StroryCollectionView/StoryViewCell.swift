@@ -28,18 +28,12 @@ class StoryViewCell: UICollectionViewCell {
         }
     }
     
-    private let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemBlue
-        return view
-    }()
-    
     private let textView: UITextView = {
         let tv = UITextView()
         tv.isScrollEnabled = false
         tv.isEditable = false
         tv.font = .systemFont(ofSize: 16)
-        tv.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        tv.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         tv.isUserInteractionEnabled = false
         return tv
     }()
@@ -48,15 +42,15 @@ class StoryViewCell: UICollectionViewCell {
     private let userIcon: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 15
+        iv.layer.cornerRadius = 18
         iv.clipsToBounds = true
         return iv
     }()
     
     private let cardView: UIView = {
         let view = UIView()
-        view.backgroundColor = .gray
-        view.layer.cornerRadius = 10
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
         return view
     }()
     
@@ -113,35 +107,34 @@ class StoryViewCell: UICollectionViewCell {
                         left: leftAnchor,
                         bottom: bottomAnchor,
                         right: rightAnchor,
-                        paddingTop: 10,
-                        paddingLeft: 10,
-                        paddingBottom: 10,
-                        paddingRight: 10)
+                        paddingTop: 15,
+                        paddingLeft: 15,
+                        paddingBottom: 15,
+                        paddingRight: 15)
         
         cardView.addSubview(textView)
         textView.anchor(top: cardView.topAnchor,
                         left: cardView.leftAnchor,
                         bottom: cardView.bottomAnchor,
                         right: cardView.rightAnchor,
-                        paddingTop: 10,
-                        paddingLeft: 10,
-                        paddingBottom: 50,
-                        paddingRight: 10)
+                        paddingTop: 15,
+                        paddingLeft: 15,
+                        paddingBottom: 55,
+                        paddingRight: 15)
 
         cardView.addSubview(userNameLabel)
         userNameLabel.anchor(bottom: cardView.bottomAnchor,
                              right: cardView.rightAnchor,
-                             paddingBottom: 10,
-                             paddingRight: 10,
+                             paddingBottom: 15,
+                             paddingRight: 15,
                              height: 30)
-        userNameLabel.backgroundColor = .systemPink
 
         addSubview(userIcon)
         userIcon.anchor(bottom: cardView.bottomAnchor,
                         right: userNameLabel.leftAnchor,
-                        paddingBottom: 10,
-                        paddingRight: 10)
-        userIcon.setDimensions(height: 30, width: 30)
+                        paddingBottom: 15,
+                        paddingRight: 15)
+        userIcon.setDimensions(height: 36, width: 36)
         userIcon.centerY(inView: userNameLabel)
     }
     
@@ -160,7 +153,10 @@ class StoryViewCell: UICollectionViewCell {
                         left: trianglePointer.rightAnchor,
                         bottom: bottomAnchor,
                         right: rightAnchor,
-                        paddingTop: 10, paddingLeft: 20, paddingBottom: 10, paddingRight: 10)
+                        paddingTop: 10,
+                        paddingLeft: 10,
+                        paddingBottom: 10,
+                        paddingRight: 10)
         
         cardView.addSubview(textView)
         textView.anchor(top: cardView.topAnchor,
@@ -178,7 +174,6 @@ class StoryViewCell: UICollectionViewCell {
                              paddingBottom: 10,
                              paddingRight: 10,
                              height: 30)
-        userNameLabel.backgroundColor = .systemPink
 
         addSubview(userIcon)
         userIcon.anchor(bottom: cardView.bottomAnchor,
@@ -192,10 +187,19 @@ class StoryViewCell: UICollectionViewCell {
     
     func configureViewModel() {
         guard let viewModel = viewModel else { return }
-        textView.text = viewModel.text
+        
         userIcon.sd_setImage(with: viewModel.icon, completed: nil)
-        userNameLabel.text = viewModel.name
         cellNumber = viewModel.cellNumber
+        
+        let textviewAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
+                                                                 .font: UIFont.pierSansRegular(size: 18),
+                                                                 .kern: 1]
+        textView.attributedText = NSAttributedString(string: viewModel.text, attributes: textviewAttributes)
+        
+        let usernameAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
+                                                                 .font: UIFont.pierSansBold(size: 18),
+                                                                 .kern: 1]
+        userNameLabel.attributedText = NSAttributedString(string: viewModel.name, attributes: usernameAttributes)
         
         trianglePointer.isHidden = viewModel.cellNumber == 0 ? false : true
     }

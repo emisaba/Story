@@ -11,7 +11,7 @@ class BeginStoryViewCell: UICollectionViewCell {
     public var delegate: BeginStoryViewCellDelegate?
     
     public lazy var textView = UITextView.createRegisterStoryTextView()
-    public lazy var registerButton = UIButton.createTextButton(text: "register", target: self, action: #selector(didTapRegisterButton))
+    public lazy var registerButton = UIButton.createTextButton(text: " register", target: self, action: #selector(didTapRegisterButton))
     private let placeholderLabel = UILabel.createLabel(text: "Lets's start story", size: 16, alignment: .left)
     private let countLabel = UILabel.createLabel(text: "0 / 140", size: 16, alignment: .right)
     
@@ -19,11 +19,14 @@ class BeginStoryViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .customGreen()
         
         addSubview(registerButton)
+        registerButton.layer.borderWidth = 2
+        registerButton.layer.borderColor = UIColor.white.cgColor
         registerButton.anchor(bottom: bottomAnchor,
                               paddingBottom: 20)
-        registerButton.setDimensions(height: 60, width: 180)
+        registerButton.setDimensions(height: 60, width: 160)
         registerButton.centerX(inView: self)
         
         textView.becomeFirstResponder()
@@ -37,12 +40,13 @@ class BeginStoryViewCell: UICollectionViewCell {
                         paddingLeft: 10,
                         paddingBottom: 20,
                         paddingRight: 10)
+        textView.layer.cornerRadius = 20
         
         textView.addSubview(placeholderLabel)
         placeholderLabel.anchor(top: textView.topAnchor,
                                 left: textView.leftAnchor,
-                                paddingLeft: 10)
-        placeholderLabel.setDimensions(height: 40, width: frame.width)
+                                paddingTop: 13,
+                                paddingLeft: 15)
         
         textView.addSubview(countLabel)
         countLabel.anchor(bottom: registerButton.topAnchor,
@@ -70,7 +74,16 @@ extension BeginStoryViewCell: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
         
-        countLabel.text = "\(textView.text.count) / 140"
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
+                                                                 .font: UIFont.pierSansRegular(size: 18),
+                                                                 .kern: 1]
+        
+        textView.attributedText = NSAttributedString(string: textView.text, attributes: attributes)
+        
+        let countAttributedText = NSMutableAttributedString(string: "\(textView.text.count)", attributes: attributes)
+        countAttributedText.append(NSAttributedString(string: "/140", attributes: attributes))
+        countLabel.attributedText = countAttributedText
+        
         if textView.text.count > 140 { textView.deleteBackward() }
     }
 }

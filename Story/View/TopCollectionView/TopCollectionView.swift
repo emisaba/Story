@@ -21,7 +21,7 @@ class TopCollectionView: UIView {
         cv.dataSource = self
         cv.delegate = self
         cv.register(cellType.type.self, forCellWithReuseIdentifier: identifier)
-        cv.backgroundColor = .systemPink
+        cv.backgroundColor = .customGreen()
         cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         return cv
     }()
@@ -108,7 +108,7 @@ extension TopCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
-        cell.backgroundColor = .systemYellow
+        cell.layer.cornerRadius = 20
         
         switch cellType {
         
@@ -169,7 +169,7 @@ extension TopCollectionView: UICollectionViewDelegate {
             let targetSize = CGSize(width: frame.width, height: 1000)
             let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
 
-            return CGSize(width: frame.width - 40, height: estimatedSize.height)
+            return CGSize(width: frame.width - 40, height: estimatedSize.height + 100)
             
         }
     }
@@ -178,7 +178,9 @@ extension TopCollectionView: UICollectionViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension TopCollectionView: UICollectionViewDelegateFlowLayout {
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 30
+    }
 }
 
 // MARK: - StoryCollectionViewCell

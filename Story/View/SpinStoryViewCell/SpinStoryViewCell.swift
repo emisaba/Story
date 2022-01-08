@@ -19,6 +19,7 @@ class SpinStoryViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .white
         
         addSubview(storyCollectionView)
         storyCollectionView.fillSuperview()

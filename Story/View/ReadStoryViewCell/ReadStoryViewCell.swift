@@ -13,30 +13,33 @@ class ReadStoryViewCell: UICollectionViewCell {
         }
     }
     
-    private lazy var categoryLabel = UILabel.createLabel(isTitle: false, text: "カテゴリ")
-    private lazy var titleLabel = UILabel.createLabel(isTitle: true, text: "タイトル")
+    private lazy var categoryLabel = UILabel.createLabel(isTitle: false, text: "")
+    private lazy var titleLabel = UILabel.createLabel(isTitle: true, text: "")
     private let contributedUsers = Countributers()
     
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .white
         
         addSubview(categoryLabel)
         categoryLabel.anchor(top: topAnchor,
                              left: leftAnchor,
                              right: rightAnchor,
-                             height: 20)
+                             paddingTop: 20,
+                             paddingLeft: 20,
+                             height: 25)
         
         addSubview(titleLabel)
-        titleLabel.anchor(left: leftAnchor,
-                          right: rightAnchor,
-                          height: 70)
+        titleLabel.centerY(inView: self)
+        titleLabel.centerX(inView: self)
         
         addSubview(contributedUsers)
         contributedUsers.anchor(top: titleLabel.bottomAnchor,
                                 bottom: bottomAnchor,
                                 right: rightAnchor,
+                                paddingBottom: 10,
                                 paddingRight: 10)
         contributedUsers.setDimensions(height: 50, width: frame.width / 2)
     }
@@ -50,7 +53,14 @@ class ReadStoryViewCell: UICollectionViewCell {
     func configureViewModel() {
         guard let viewModel = viewModel else { return }
         
-        categoryLabel.text = viewModel.category
-        titleLabel.text = viewModel.title
+        let categoryAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
+                                                                 .font: UIFont.pierSansRegular(size: 18),
+                                                                 .kern: 1]
+        categoryLabel.attributedText = NSAttributedString(string: viewModel.category, attributes: categoryAttributes)
+        
+        let titleAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
+                                                              .font: UIFont.pierSansBold(size: 28),
+                                                              .kern: 2]
+        titleLabel.attributedText = NSAttributedString(string: viewModel.title, attributes: titleAttributes)
     }
 }

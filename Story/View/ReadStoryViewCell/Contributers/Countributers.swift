@@ -10,6 +10,7 @@ class Countributers: UIView {
         cv.delegate = self
         cv.dataSource = self
         cv.register(ContributersCell.self, forCellWithReuseIdentifier: identifier)
+        cv.backgroundColor = .white
         return cv
     }()
     

@@ -22,7 +22,7 @@ class TopViewController: UIViewController {
         didSet { self.topCollectionView.stories = stories }
     }
     
-    private let myPageButton = UIButton.createImageButton(target: self, action: #selector(didTapMyPageButton))
+    private let myPageButton = UIButton.createImageButton(target: self, action: #selector(didTapMyPageButton), image: #imageLiteral(resourceName: "arrow"))
     private let mypageButtonBaseView = UIView.createButtonBaseView(isTop: false)
     
     // MARK: - LifeCycle
@@ -131,7 +131,7 @@ class TopViewController: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .customGreen()
         
         view.addSubview(segmentControl)
         segmentControl.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -143,19 +143,20 @@ class TopViewController: UIViewController {
         topCollectionView.anchor(top: segmentControl.bottomAnchor,
                                  left: view.leftAnchor,
                                  bottom: view.bottomAnchor,
-                                 right: view.rightAnchor)
+                                 right: view.rightAnchor,
+                                 paddingTop: 30)
         
-        view.addSubview(mypageButtonBaseView)
-        mypageButtonBaseView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                                    right: view.rightAnchor,
-                                    paddingBottom: -110, paddingRight: -80)
-        mypageButtonBaseView.setDimensions(height: 200, width: 200)
-        
-        mypageButtonBaseView.addSubview(myPageButton)
-        myPageButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                            right: view.rightAnchor,
-                            paddingRight: 20)
-        myPageButton.setDimensions(height: 60, width: 60)
+//        view.addSubview(mypageButtonBaseView)
+//        mypageButtonBaseView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+//                                    right: view.rightAnchor,
+//                                    paddingBottom: -110, paddingRight: -80)
+//        mypageButtonBaseView.setDimensions(height: 200, width: 200)
+//        
+//        mypageButtonBaseView.addSubview(myPageButton)
+//        myPageButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+//                            right: view.rightAnchor,
+//                            paddingRight: 20)
+//        myPageButton.setDimensions(height: 60, width: 60)
     }
 }
 
@@ -184,8 +185,6 @@ extension TopViewController: TopCollectionViewDelegate {
         
         let vc = ReadStoryViewController()
         vc.titleContainerView.hero.id = "selectCell"
-        vc.categoryTitleLabel.hero.id = "segmentCellTitle"
-        vc.categoryTitleIcon.hero.id = "segmentCellImage"
         vc.viewModel = StoryViewModel(story: story)
         
         navigationController?.isHeroEnabled = true
@@ -203,8 +202,6 @@ extension TopViewController: TopCollectionViewDelegate {
         
         let vc = SpinStoryViewController()
         vc.topStoryCollectionView.hero.id = "selectCell"
-        vc.categoryTitleLabel.hero.id = "segmentCellTitle"
-        vc.categoryTitleIcon.hero.id = "segmentCellImage"
         vc.topStoryCollectionView.miniStories = story
         
         guard let firstStory = story.first else { return }
