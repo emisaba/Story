@@ -170,7 +170,7 @@ extension CustomActionSheet: UITextViewDelegate {
         placeholderLabel.isHidden = !textView.text.isEmpty
         
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                         .font: UIFont.pierSansRegular(size: 18),
+                                                         .font: UIFont.KaiseiOpti(size: 18),
                                                          .kern: 1]
         
         textView.attributedText = NSAttributedString(string: textView.text, attributes: attributes)
@@ -189,7 +189,7 @@ extension CustomActionSheet: UITextFieldDelegate {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white,
-                                                         .font: UIFont.pierSansRegular(size: 18),
+                                                         .font: UIFont.KaiseiOpti(size: 18),
                                                          .kern: 1]
         switch textField {
         case categoryTextField:

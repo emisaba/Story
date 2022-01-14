@@ -54,12 +54,12 @@ class ReadStoryViewCell: UICollectionViewCell {
         guard let viewModel = viewModel else { return }
         
         let categoryAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                                 .font: UIFont.pierSansRegular(size: 18),
+                                                                 .font: UIFont.KaiseiOpti(size: 18),
                                                                  .kern: 1]
         categoryLabel.attributedText = NSAttributedString(string: viewModel.category, attributes: categoryAttributes)
         
         let titleAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                              .font: UIFont.pierSansBold(size: 28),
+                                                              .font: UIFont.yawarakadragonmini(size: 28),
                                                               .kern: 2]
         titleLabel.attributedText = NSAttributedString(string: viewModel.title, attributes: titleAttributes)
     }

@@ -14,7 +14,7 @@ extension UITextField {
         textField.backgroundColor = .customGreen()
         
         let textviewAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white.withAlphaComponent(0.3),
-                                                                 .font: UIFont.pierSansRegular(size: 18),
+                                                                 .font: UIFont.KaiseiOpti(size: 18),
                                                                  .kern: 1]
         textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: textviewAttributes)
         

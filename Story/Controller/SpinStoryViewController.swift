@@ -12,7 +12,11 @@ class SpinStoryViewController: UIViewController {
         return layout
     }()
     
-    public lazy var topStoryCollectionView = StoryCollectionView(frame: .zero, collectionViewLayout: horizontalLayout, isVertical: false, isTop: false)
+    public lazy var topStoryCollectionView: StoryCollectionView = {
+        let view = StoryCollectionView(frame: .zero, collectionViewLayout: horizontalLayout, isVertical: false, isTop: false)
+        view.delegateForSpinViewController = self
+        return view
+    }()
     
     private let verticalLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -26,8 +30,41 @@ class SpinStoryViewController: UIViewController {
         return view
     }()
     
-    private let saveButton = UIButton.createTextButton(text: "complete", target: self, action: #selector(didTapCompleteButton))
-    private let addButton = UIButton.createTextButton(text: "add", target: self, action: #selector(didTapAddButton))
+    private lazy var saveButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 2
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 1
+        button.backgroundColor = .customGreen()
+        button.addTarget(self, action: #selector(didTapCompleteButton), for: .touchUpInside)
+        
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.KaiseiOpti(size: 18)]
+        button.setAttributedTitle(NSAttributedString(string: "完", attributes: attributes), for: .normal)
+        return button
+    }()
+    
+    private lazy var addButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 30
+        button.layer.borderColor = UIColor.customGreen().cgColor
+        button.layer.borderWidth = 3
+        button.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        button.backgroundColor = .customGreen()
+        button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private let addButtonShdow: UIView = {
+        let shadowView = UIView()
+        shadowView.layer.shadowColor = UIColor.lightGray.cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 5, height: 5)
+        shadowView.layer.shadowRadius = 10
+        shadowView.layer.shadowOpacity = 0.7
+        shadowView.backgroundColor = .white
+        return shadowView
+    }()
+    
     private let closeButton = UIButton.createImageButton(target: self, action: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow"))
 
     private lazy var actionSheet: CustomActionSheet = {
@@ -38,6 +75,15 @@ class SpinStoryViewController: UIViewController {
         sheet.delegate = self
         return sheet
      }()
+    
+    private lazy var pagesCount: UIPageControl = {
+        let control = UIPageControl()
+        control.numberOfPages = 1
+        control.currentPage = 0
+        control.pageIndicatorTintColor = .init(white: 1, alpha: 0.95)
+        control.currentPageIndicatorTintColor = .customYellow()
+        return control
+    }()
     
     private var user: User?
     
@@ -146,13 +192,26 @@ class SpinStoryViewController: UIViewController {
         topStoryCollectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                       left: view.leftAnchor,
                                       right: view.rightAnchor,
-                                      paddingTop: 30, height: 150)
+                                      paddingTop: 20, height: 200)
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            left: view.leftAnchor,
-                           paddingLeft: 10)
+                           paddingTop: -30,
+                           paddingLeft: 20)
         closeButton.setDimensions(height: 50, width: 50)
+    }
+    
+    func createImageButton(image: UIImage, selector: Selector) -> UIButton {
+        let button = UIButton()
+        button.layer.cornerRadius = 30
+        button.layer.borderColor = UIColor.customGreen().cgColor
+        button.layer.borderWidth = 3
+        button.setImage(image, for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        button.backgroundColor = .customGreen()
+        button.addTarget(self, action: selector, for: .touchUpInside)
+        return button
     }
 }
 
@@ -162,42 +221,44 @@ extension SpinStoryViewController: HeroViewControllerDelegate {
     
     func heroDidEndTransition() {
         
-        let bottomStackView = UIStackView(arrangedSubviews: [saveButton, addButton])
-        bottomStackView.axis = .horizontal
-        bottomStackView.distribution = .fillEqually
-        bottomStackView.backgroundColor = .lightGray.withAlphaComponent(0.2)
-        
-        view.addSubview(bottomStackView)
-        bottomStackView.anchor(left: view.leftAnchor,
-                               bottom: view.bottomAnchor,
-                               right: view.rightAnchor,
-                               height: 90)
-
-        let bottoStackViewDivider = UIView()
-        bottoStackViewDivider.backgroundColor = .white
-
-        view.addSubview(bottoStackViewDivider)
-        bottoStackViewDivider.centerX(inView: view)
-        bottoStackViewDivider.centerY(inView: bottomStackView)
-        bottoStackViewDivider.setDimensions(height: 10, width: 10)
-        bottoStackViewDivider.layer.cornerRadius = 5
-        
         view.addSubview(choicesStoryCollectionView)
         choicesStoryCollectionView.anchor(top: topStoryCollectionView.bottomAnchor,
                                           left: view.leftAnchor,
-                                          bottom: bottomStackView.topAnchor,
+                                          bottom: view.bottomAnchor,
                                           right: view.rightAnchor,
                                           paddingTop: 30)
-        choicesStoryCollectionView.backgroundColor = .customGreen()
         
         view.addSubview(topStoryCollectionView)
         topStoryCollectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                       left: view.leftAnchor,
                                       bottom: choicesStoryCollectionView.topAnchor,
                                       right: view.rightAnchor,
-                                      paddingTop: 30, paddingBottom: 20)
-        
+                                      paddingTop: 30, paddingBottom: 40)
+        topStoryCollectionView.backgroundColor = .systemPink
         view.layoutIfNeeded()
+        
+        view.addSubview(addButtonShdow)
+        addButtonShdow.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 10)
+        addButtonShdow.setDimensions(height: 40, width: 50)
+        addButtonShdow.centerX(inView: view)
+        
+        view.addSubview(addButton)
+        addButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
+        addButton.setDimensions(height: 60, width: 60)
+        addButton.centerX(inView: view)
+        
+        view.addSubview(pagesCount)
+        pagesCount.anchor(left: view.leftAnchor,
+                          bottom: choicesStoryCollectionView.topAnchor,
+                          right: view.rightAnchor,
+                          height: 50)
+        
+        view.addSubview(saveButton)
+        saveButton.anchor(bottom: choicesStoryCollectionView.topAnchor,
+                          right: view.rightAnchor,
+                          paddingBottom: -10,
+                          paddingRight: 20)
+        saveButton.setDimensions(height: 40, width: 40)
         
         view.addSubview(actionSheet)
         actionSheet.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
@@ -207,6 +268,9 @@ extension SpinStoryViewController: HeroViewControllerDelegate {
 // MARK: - storyViewDelegateForSpinViewController
 
 extension SpinStoryViewController: storyViewDelegateForSpinViewController {
+    func didDragPage(onPage: Int) {
+        pagesCount.currentPage = onPage
+    }
     
     func didSelectNextStory(selectedCell: StoryViewCell) {
         
@@ -214,6 +278,9 @@ extension SpinStoryViewController: storyViewDelegateForSpinViewController {
         topStoryCollectionView.miniStories.append(story)
         
         fetchChoicesStories(story: story)
+        
+        pagesCount.numberOfPages += 1
+        pagesCount.currentPage = topStoryCollectionView.miniStories.count - 1
     }
 }
 

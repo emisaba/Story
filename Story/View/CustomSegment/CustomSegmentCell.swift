@@ -70,18 +70,18 @@ class CustomSegmentCell: UICollectionViewCell {
     
     func setupTitle(cellType: CellType) {
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white,
-                                                         .font: UIFont.gaeguBold(size: 22),
+                                                         .font: UIFont.yawarakadragonmini(size: 16),
                                                          .kern: 2]
         
         switch cellType {
         case .read:
-            titleLabel.attributedText = NSAttributedString(string: "READ", attributes: attributes)
+            titleLabel.attributedText = NSAttributedString(string: "よむ", attributes: attributes)
             
         case .spin:
-            titleLabel.attributedText = NSAttributedString(string: "SPIN", attributes: attributes)
+            titleLabel.attributedText = NSAttributedString(string: "つむぐ", attributes: attributes)
             
         case .begin:
-            titleLabel.attributedText = NSAttributedString(string: "BEGIN", attributes: attributes)
+            titleLabel.attributedText = NSAttributedString(string: "はじめる", attributes: attributes)
         }
     }
 }

@@ -33,7 +33,7 @@ class StoryViewCell: UICollectionViewCell {
         tv.isScrollEnabled = false
         tv.isEditable = false
         tv.font = .systemFont(ofSize: 16)
-        tv.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        tv.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         tv.isUserInteractionEnabled = false
         return tv
     }()
@@ -92,7 +92,9 @@ class StoryViewCell: UICollectionViewCell {
         super.touchesBegan(touches, with: event)
         
         if viewModel?.isVartical == true {
-            delegateForSpinViewController?.didSelectNextStory(cell: self)
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                self.delegateForSpinViewController?.didSelectNextStory(cell: self)
+            }
         } else {
             delegateForTopViewController?.didSelectTopSpinCell(cell: self, story: story)
         }
@@ -148,6 +150,23 @@ class StoryViewCell: UICollectionViewCell {
         trianglePointer.setDimensions(height: 15, width: 15)
         trianglePointer.centerY(inView: self)
         
+        let shadowView = UIView()
+        shadowView.layer.shadowColor = UIColor.lightGray.cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 5, height: 5)
+        shadowView.layer.shadowRadius = 10
+        shadowView.layer.shadowOpacity = 0.7
+        shadowView.backgroundColor = .systemPink
+        
+        addSubview(shadowView)
+        shadowView.anchor(top: topAnchor,
+                          left: trianglePointer.rightAnchor,
+                          bottom: bottomAnchor,
+                          right: rightAnchor,
+                          paddingTop: 16,
+                          paddingLeft: 16,
+                          paddingBottom: 25,
+                          paddingRight: 21)
+        
         addSubview(cardView)
         cardView.anchor(top: topAnchor,
                         left: trianglePointer.rightAnchor,
@@ -155,8 +174,8 @@ class StoryViewCell: UICollectionViewCell {
                         right: rightAnchor,
                         paddingTop: 10,
                         paddingLeft: 10,
-                        paddingBottom: 10,
-                        paddingRight: 10)
+                        paddingBottom: 20,
+                        paddingRight: 15)
         
         cardView.addSubview(textView)
         textView.anchor(top: cardView.topAnchor,
@@ -176,6 +195,7 @@ class StoryViewCell: UICollectionViewCell {
                              height: 30)
 
         addSubview(userIcon)
+        userIcon.layer.cornerRadius = 15
         userIcon.anchor(bottom: cardView.bottomAnchor,
                         right: userNameLabel.leftAnchor,
                         paddingBottom: 10,
@@ -192,12 +212,12 @@ class StoryViewCell: UICollectionViewCell {
         cellNumber = viewModel.cellNumber
         
         let textviewAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                                 .font: UIFont.pierSansRegular(size: 18),
-                                                                 .kern: 1]
+                                                                 .font: UIFont.KaiseiOpti(size: 16),
+                                                                 .kern: 0.5]
         textView.attributedText = NSAttributedString(string: viewModel.text, attributes: textviewAttributes)
         
         let usernameAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                                 .font: UIFont.pierSansBold(size: 18),
+                                                                 .font: UIFont.KaiseiOpti(size: 14),
                                                                  .kern: 1]
         userNameLabel.attributedText = NSAttributedString(string: viewModel.name, attributes: usernameAttributes)
         
@@ -208,7 +228,7 @@ class StoryViewCell: UICollectionViewCell {
         
         let story = story[cellNumber]
         let data: [String: Any] = ["userName": story.userName,
-                                   "userImage": userIcon.image ?? UIImage(),
+                                   "userImageUrl": story.userImageUrl,
                                    "story": story.story,
                                    "storyID": story.storyID,
                                    "lastStoryID": ""]

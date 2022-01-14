@@ -6,6 +6,7 @@ protocol storyViewDelegateForTopViewController {
 
 protocol storyViewDelegateForSpinViewController {
     func didSelectNextStory(selectedCell: StoryViewCell)
+    func didDragPage(onPage: Int)
 }
 
 class StoryCollectionView: UICollectionView {
@@ -26,7 +27,10 @@ class StoryCollectionView: UICollectionView {
     public var miniStories = [MiniStory]() {
         didSet {
             reloadData()
+            
+            isPagingEnabled = false
             scrollToItem(at: IndexPath(item: miniStories.count - 1, section: 0), at: .centeredHorizontally, animated: true)
+            isPagingEnabled = true
         }
     }
     
@@ -47,11 +51,20 @@ class StoryCollectionView: UICollectionView {
     // MARK: - Helper
     
     func configureUI() {
-        backgroundColor = .customGreen().withAlphaComponent(0.1)
         dataSource = self
         delegate = self
         register(StoryViewCell.self, forCellWithReuseIdentifier: identifier)
-        isPagingEnabled = isVertical ? false : true
+        
+        if isVertical {
+            contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
+            backgroundColor = .init(white: 1, alpha: 0.95)
+            isPagingEnabled = false
+            showsVerticalScrollIndicator = false
+        } else {
+            backgroundColor = .customGreen()
+            isPagingEnabled = true
+            showsHorizontalScrollIndicator = false
+        }
     }
 }
 
@@ -64,7 +77,7 @@ extension StoryCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! StoryViewCell
-        cell.backgroundColor = .customGreen()
+        cell.backgroundColor = isVertical ? .clear : .customGreen()
         cell.delegateForTopViewController = self
         cell.delegateForSpinViewController = self
         cell.viewModel = MiniStoryViewModel(story: miniStories[indexPath.row], cellNumber: indexPath.row, isVartical: isVertical)
@@ -77,25 +90,32 @@ extension StoryCollectionView: UICollectionViewDataSource {
 
 extension StoryCollectionView: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == 0 { return }
+        
+        guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) else { return }
+        cell.isSelected = false
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let story = miniStories[indexPath.row].story
         let apporoximateWidth = frame.width - 55
         let size = CGSize(width: apporoximateWidth, height: 1000)
-        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16)]
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.KaiseiOpti(size: 16)]
         let estimatedFrame = NSString(string: story)
             .boundingRect(with: size,
                           options: .usesLineFragmentOrigin,
                           attributes: attributes,
                           context: nil)
         
-        let estimatedHeight = isTop ? frame.height : estimatedFrame.height + 100
+        let estimatedHeight = isVertical ? estimatedFrame.height + 140 :  estimatedFrame.height + 160 
 
         return .init(width: frame.width, height: estimatedHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return isVertical ? 20 : 0
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -112,6 +132,16 @@ extension StoryCollectionView: UICollectionViewDelegate {
 
 extension StoryCollectionView: UICollectionViewDelegateFlowLayout {
     
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension StoryCollectionView: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let x = targetContentOffset.pointee.x
+        let onPage = Int(x / frame.width)
+        delegateForSpinViewController?.didDragPage(onPage: onPage)
+    }
 }
 
 // MARK: - StoryViewCellDelegate

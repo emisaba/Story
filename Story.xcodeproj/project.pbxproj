@@ -15,6 +15,11 @@
 		8246554127894017002BD067 /* Gaegu-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8246551F27894017002BD067 /* Gaegu-Regular.ttf */; };
 		8246554227894017002BD067 /* Gaegu-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8246552027894017002BD067 /* Gaegu-Bold.ttf */; };
 		8246554527896514002BD067 /* PierSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8246554427896514002BD067 /* PierSans-Bold.otf */; };
+		8246558727916B5A002BD067 /* yawarakadragonmini.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8246558627916B5A002BD067 /* yawarakadragonmini.otf */; };
+		8246558B27916C60002BD067 /* komadori-mini.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8246558A27916C60002BD067 /* komadori-mini.otf */; };
+		824655AA27919C59002BD067 /* KaiseiOpti-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8246559C27919C58002BD067 /* KaiseiOpti-Regular.ttf */; };
+		824655AB27919C59002BD067 /* KaiseiOpti-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8246559D27919C58002BD067 /* KaiseiOpti-Bold.ttf */; };
+		824655AC27919C59002BD067 /* KaiseiOpti-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8246559E27919C58002BD067 /* KaiseiOpti-Medium.ttf */; };
 		828E2EF1275482CC0011B287 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828E2EF0275482CC0011B287 /* AppDelegate.swift */; };
 		828E2EF3275482CC0011B287 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828E2EF2275482CC0011B287 /* SceneDelegate.swift */; };
 		828E2EF5275482CC0011B287 /* BeginningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828E2EF4275482CC0011B287 /* BeginningViewController.swift */; };
@@ -75,6 +80,11 @@
 		8246551F27894017002BD067 /* Gaegu-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gaegu-Regular.ttf"; sourceTree = "<group>"; };
 		8246552027894017002BD067 /* Gaegu-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gaegu-Bold.ttf"; sourceTree = "<group>"; };
 		8246554427896514002BD067 /* PierSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PierSans-Bold.otf"; sourceTree = "<group>"; };
+		8246558627916B5A002BD067 /* yawarakadragonmini.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = yawarakadragonmini.otf; sourceTree = "<group>"; };
+		8246558A27916C60002BD067 /* komadori-mini.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "komadori-mini.otf"; sourceTree = "<group>"; };
+		8246559C27919C58002BD067 /* KaiseiOpti-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KaiseiOpti-Regular.ttf"; sourceTree = "<group>"; };
+		8246559D27919C58002BD067 /* KaiseiOpti-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KaiseiOpti-Bold.ttf"; sourceTree = "<group>"; };
+		8246559E27919C58002BD067 /* KaiseiOpti-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KaiseiOpti-Medium.ttf"; sourceTree = "<group>"; };
 		828E2EED275482CC0011B287 /* Story.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Story.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		828E2EF0275482CC0011B287 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		828E2EF2275482CC0011B287 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +161,9 @@
 		82465491278927F5002BD067 /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				8246559B27919C58002BD067 /* Kaisei_Opti */,
+				8246558A27916C60002BD067 /* komadori-mini.otf */,
+				8246558627916B5A002BD067 /* yawarakadragonmini.otf */,
 				8246551D27894017002BD067 /* Gaegu */,
 				8246549C27892817002BD067 /* PierSans-FreeForPersonalUse */,
 			);
@@ -175,6 +188,16 @@
 				8246552027894017002BD067 /* Gaegu-Bold.ttf */,
 			);
 			path = Gaegu;
+			sourceTree = "<group>";
+		};
+		8246559B27919C58002BD067 /* Kaisei_Opti */ = {
+			isa = PBXGroup;
+			children = (
+				8246559C27919C58002BD067 /* KaiseiOpti-Regular.ttf */,
+				8246559D27919C58002BD067 /* KaiseiOpti-Bold.ttf */,
+				8246559E27919C58002BD067 /* KaiseiOpti-Medium.ttf */,
+			);
+			path = Kaisei_Opti;
 			sourceTree = "<group>";
 		};
 		828E2EE4275482CC0011B287 = {
@@ -465,15 +488,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				824655AA27919C59002BD067 /* KaiseiOpti-Regular.ttf in Resources */,
+				8246558B27916C60002BD067 /* komadori-mini.otf in Resources */,
 				8246554027894017002BD067 /* Gaegu-Light.ttf in Resources */,
 				828E2EFD275482D60011B287 /* LaunchScreen.storyboard in Resources */,
+				8246558727916B5A002BD067 /* yawarakadragonmini.otf in Resources */,
 				824654B727892818002BD067 /* PierSans-Regular.otf in Resources */,
 				828E2EFA275482D60011B287 /* Assets.xcassets in Resources */,
 				8246554227894017002BD067 /* Gaegu-Bold.ttf in Resources */,
 				824654B827892818002BD067 /* PierSans-Light.otf in Resources */,
+				824655AB27919C59002BD067 /* KaiseiOpti-Bold.ttf in Resources */,
 				828E2EF8275482CD0011B287 /* Main.storyboard in Resources */,
 				828E2F43275656480011B287 /* read.json in Resources */,
 				8246554127894017002BD067 /* Gaegu-Regular.ttf in Resources */,
+				824655AC27919C59002BD067 /* KaiseiOpti-Medium.ttf in Resources */,
 				8246554527896514002BD067 /* PierSans-Bold.otf in Resources */,
 				828E2F412756562B0011B287 /* begin.json in Resources */,
 				828E2F4B2757AAD00011B287 /* GoogleService-Info.plist in Resources */,

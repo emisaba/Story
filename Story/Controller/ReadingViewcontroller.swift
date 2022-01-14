@@ -16,7 +16,7 @@ class ReadStoryViewController: UIViewController {
     
     public lazy var storyTextView = UITextView.createRegisterStoryTextView()
     
-    private let closeButton = UIButton.createImageButton(target: self, action: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow-left"))
+    private let closeButton = UIButton.createImageButton(target: self, action: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow-down-green"))
     
     public var viewModel: StoryViewModel? {
         didSet { configureStory() }
@@ -62,8 +62,9 @@ class ReadStoryViewController: UIViewController {
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                           left: view.leftAnchor,
-                           paddingLeft: 10)
+                           right: view.rightAnchor,
+                           paddingTop: -10,
+                           paddingRight: 20)
         closeButton.setDimensions(height: 50, width: 50)
     }
     
@@ -78,13 +79,13 @@ class ReadStoryViewController: UIViewController {
         contributedUsers.iconImageUrls = contributers
         
         let titleAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                              .font: UIFont.pierSansBold(size: 30),
+                                                              .font: UIFont.yawarakadragonmini(size: 30),
                                                               .kern: 2.5]
         
         titleLabel.attributedText = NSAttributedString(string: title, attributes: titleAttributes)
         
         let stoeyAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                              .font: UIFont.pierSansRegular(size: 22),
+                                                              .font: UIFont.KaiseiOpti(size: 22),
                                                               .kern: 2.5]
         
         storyTextView.attributedText = NSAttributedString(string: story, attributes: stoeyAttributes)

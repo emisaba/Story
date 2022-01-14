@@ -12,7 +12,7 @@ class TrianglePointer: UIView {
         line.addLine(to: CGPoint(x: 0, y: 0))
         line.close()
         
-        UIColor.customYellow().setFill()
+        UIColor.customGreen().setFill()
         line.fill()
     }
 }

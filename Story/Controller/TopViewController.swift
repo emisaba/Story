@@ -175,16 +175,10 @@ extension TopViewController: CustomSegmentControlDelegate {
 extension TopViewController: TopCollectionViewDelegate {
     
     func didTapReadCell(selectedCell: UICollectionViewCell, story: Story) {
-        
-        let indexPath = IndexPath(row: 0, section: 0)
-        guard let selectedCategory = segmentControl.collectionView.cellForItem(at: indexPath) as? CustomSegmentCell else { return }
-        selectedCategory.titleLabel.hero.id = "segmentCellTitle"
-        selectedCategory.imageView.hero.id = "segmentCellImage"
-        
         selectedCell.hero.id = "selectCell"
         
         let vc = ReadStoryViewController()
-        vc.titleContainerView.hero.id = "selectCell"
+        vc.view.hero.id = "selectCell"
         vc.viewModel = StoryViewModel(story: story)
         
         navigationController?.isHeroEnabled = true

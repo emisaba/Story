@@ -152,14 +152,14 @@ extension TopCollectionView: UICollectionViewDelegate {
             let story = miniStories[indexPath.row].story
             let apporoximateWidth = frame.width - 40
             let size = CGSize(width: apporoximateWidth, height: 1000)
-            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 16)]
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.KaiseiOpti(size: 16)]
             let estimatedFrame = NSString(string: story)
                 .boundingRect(with: size,
                               options: .usesLineFragmentOrigin,
                               attributes: attributes,
                               context: nil)
         
-            return CGSize(width: frame.width, height: estimatedFrame.height + 100)
+            return CGSize(width: frame.width, height: estimatedFrame.height + 160)
             
         case .read:
             let frame = CGRect(x: 0, y: 0, width: frame.width, height: 180)
@@ -185,7 +185,7 @@ extension TopCollectionView: UICollectionViewDelegateFlowLayout {
 
 // MARK: - StoryCollectionViewCell
 
-extension TopCollectionView: storyViewDelegateForTopViewController {
+extension TopCollectionView: storyViewDelegateForTopViewController {    
     func didSelectTopSpinCell(selectedCell: StoryViewCell, story: [MiniStory]) {
         delegate?.didTapSpinCell(selectedCell: selectedCell, story: story)
     }
