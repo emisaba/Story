@@ -123,6 +123,7 @@ class StoryViewCell: UICollectionViewCell {
                         paddingLeft: 15,
                         paddingBottom: 55,
                         paddingRight: 15)
+        textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
         cardView.addSubview(userNameLabel)
         userNameLabel.anchor(bottom: cardView.bottomAnchor,
@@ -155,7 +156,7 @@ class StoryViewCell: UICollectionViewCell {
         shadowView.layer.shadowOffset = CGSize(width: 5, height: 5)
         shadowView.layer.shadowRadius = 10
         shadowView.layer.shadowOpacity = 0.7
-        shadowView.backgroundColor = .systemPink
+        shadowView.backgroundColor = .customGreen()
         
         addSubview(shadowView)
         shadowView.anchor(top: topAnchor,
@@ -186,6 +187,7 @@ class StoryViewCell: UICollectionViewCell {
                         paddingLeft: 10,
                         paddingBottom: 50,
                         paddingRight: 10)
+        textView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
 
         cardView.addSubview(userNameLabel)
         userNameLabel.anchor(bottom: cardView.bottomAnchor,
@@ -212,12 +214,12 @@ class StoryViewCell: UICollectionViewCell {
         cellNumber = viewModel.cellNumber
         
         let textviewAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                                 .font: UIFont.KaiseiOpti(size: 16),
-                                                                 .kern: 0.5]
+                                                                 .font: UIFont.banana(size: 18),
+                                                                 .kern: 1]
         textView.attributedText = NSAttributedString(string: viewModel.text, attributes: textviewAttributes)
         
         let usernameAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                                 .font: UIFont.KaiseiOpti(size: 14),
+                                                                 .font: UIFont.banana(size: 14),
                                                                  .kern: 1]
         userNameLabel.attributedText = NSAttributedString(string: viewModel.name, attributes: usernameAttributes)
         

@@ -22,7 +22,7 @@ class TopCollectionView: UIView {
         cv.delegate = self
         cv.register(cellType.type.self, forCellWithReuseIdentifier: identifier)
         cv.backgroundColor = .customGreen()
-        cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        cv.contentInset = UIEdgeInsets(top: 30, left: 20, bottom: 20, right: 20)
         return cv
     }()
     
@@ -145,14 +145,14 @@ extension TopCollectionView: UICollectionViewDelegate {
         switch cellType {
         case .begin:
             detectKeyboardHeight()
-            return CGSize(width: frame.width, height: frame.height - keyboardHeight)
+            return CGSize(width: frame.width, height: frame.height - (keyboardHeight - 30))
             
         case .spin:
             
             let story = miniStories[indexPath.row].story
             let apporoximateWidth = frame.width - 40
             let size = CGSize(width: apporoximateWidth, height: 1000)
-            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.KaiseiOpti(size: 16)]
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.banana(size: 16)]
             let estimatedFrame = NSString(string: story)
                 .boundingRect(with: size,
                               options: .usesLineFragmentOrigin,

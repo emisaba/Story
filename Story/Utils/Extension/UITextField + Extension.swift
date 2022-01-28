@@ -12,9 +12,10 @@ extension UITextField {
         textField.leftView = leftView
         textField.leftViewMode = .always
         textField.backgroundColor = .customGreen()
+        textField.tintColor = .lightGray
         
         let textviewAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white.withAlphaComponent(0.3),
-                                                                 .font: UIFont.KaiseiOpti(size: 18),
+                                                                 .font: UIFont.banana(size: 18),
                                                                  .kern: 1]
         textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: textviewAttributes)
         

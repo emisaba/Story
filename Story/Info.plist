@@ -64,10 +64,10 @@
 		<string>PierSans-Regular.otf</string>
 		<string>PierSans-Light.otf</string>
 		<string>Gaegu-Bold.ttf</string>
-		<string>Makinas-4-Flat.otf</string>
 		<string>yawarakadragonmini.otf</string>
-		<string>komadori-mini.otf</string>
 		<string>KaiseiOpti-Bold.ttf</string>
+		<string>bananaslipplus.otf</string>
+		<string>Senobi-Gothic-Bold.ttf</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

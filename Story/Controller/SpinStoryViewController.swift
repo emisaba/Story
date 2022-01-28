@@ -37,8 +37,9 @@ class SpinStoryViewController: UIViewController {
         button.layer.borderWidth = 1
         button.backgroundColor = .customGreen()
         button.addTarget(self, action: #selector(didTapCompleteButton), for: .touchUpInside)
+        button.titleEdgeInsets = UIEdgeInsets(top: -3, left: 0, bottom: 0, right: 0)
         
-        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.KaiseiOpti(size: 18)]
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.kaisei(size: 22)]
         button.setAttributedTitle(NSAttributedString(string: "完", attributes: attributes), for: .normal)
         return button
     }()

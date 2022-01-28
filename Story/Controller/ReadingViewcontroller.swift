@@ -85,7 +85,7 @@ class ReadStoryViewController: UIViewController {
         titleLabel.attributedText = NSAttributedString(string: title, attributes: titleAttributes)
         
         let stoeyAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                              .font: UIFont.KaiseiOpti(size: 22),
+                                                              .font: UIFont.banana(size: 22),
                                                               .kern: 2.5]
         
         storyTextView.attributedText = NSAttributedString(string: story, attributes: stoeyAttributes)

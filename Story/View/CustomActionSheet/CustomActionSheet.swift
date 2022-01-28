@@ -13,14 +13,14 @@ class CustomActionSheet: UIView {
     public var delegate: CustomActionSheetDelegate?
     
     public lazy var cancelButton = UIButton.createImageButton(target: self, action: #selector(didTapCancelButton), image: #imageLiteral(resourceName: "close"))
-    public lazy var registerButton = UIButton.createTextButton(text: "register", target: self, action: #selector(didTapRegisterButton))
+    public lazy var registerButton = UIButton.createTextButton(text: "登録", target: self, action: #selector(didTapRegisterButton))
     
     public lazy var textView = UITextView.createRegisterStoryTextView()
-    private let placeholderLabel = UILabel.createLabel(text: "Lets's add story", size: 16, alignment: .left)
-    private let countLabel = UILabel.createLabel(text: "0 / 140", size: 16, alignment: .right)
+    private let placeholderLabel = UILabel.createLabel(text: "ストーリーを入力してください...", size: 18, alignment: .left)
+    private let countLabel = UILabel.createLabel(text: "0/140", size: 16, alignment: .right)
     
-    private let categoryTextField = UITextField.createTextField(placeholder: "category")
-    private let titleTextField = UITextField.createTextField(placeholder: "title")
+    private let categoryTextField = UITextField.createTextField(placeholder: "カテゴリを入力")
+    private let titleTextField = UITextField.createTextField(placeholder: "タイトルを入力")
     
     public var isAdd = false {
         didSet {
@@ -41,9 +41,9 @@ class CustomActionSheet: UIView {
         
         addSubview(cancelButton)
         cancelButton.anchor(top: safeAreaLayoutGuide.topAnchor,
-                            left: leftAnchor,
-                            paddingTop: 20,
-                            paddingLeft: 10)
+                            right: rightAnchor,
+                            paddingTop: -20,
+                            paddingRight: 20)
         cancelButton.setDimensions(height: 50, width: 50)
     }
     
@@ -84,29 +84,31 @@ class CustomActionSheet: UIView {
                         paddingTop: 20,
                         paddingLeft: 20,
                         paddingRight: 20,
-                        height: 200)
+                        height: 290)
         
         textView.addSubview(placeholderLabel)
         placeholderLabel.anchor(top: textView.topAnchor,
                                 left: textView.leftAnchor,
                                 right: textView.rightAnchor,
-                                paddingTop: 10,
+                                paddingTop: 15,
                                 paddingLeft: 13)
         
         addSubview(countLabel)
         countLabel.anchor(bottom: textView.bottomAnchor,
                           right: rightAnchor,
-                          paddingBottom: 10,
-                          paddingRight: 30,
+                          paddingBottom: 15,
+                          paddingRight: 35,
                           height: 20)
         
         addSubview(registerButton)
-        registerButton.layer.borderWidth = 2
-        registerButton.layer.borderColor = UIColor.white.cgColor
+        registerButton.setTitleColor(.white, for: .normal)
         registerButton.anchor(top: textView.bottomAnchor,
-                              paddingTop: 30)
-        registerButton.centerX(inView: self)
-        registerButton.setDimensions(height: 60, width: 160)
+                              left: leftAnchor,
+                              right: rightAnchor,
+                              paddingTop: 30,
+                              paddingLeft: 20,
+                              paddingRight: 20,
+                              height: 60)
     }
     
     func setupCompleteView() {
@@ -149,12 +151,14 @@ class CustomActionSheet: UIView {
                                height: 0.5)
         
         addSubview(registerButton)
-        registerButton.layer.borderWidth = 2
-        registerButton.layer.borderColor = UIColor.white.cgColor
+        registerButton.setTitleColor(.white, for: .normal)
         registerButton.anchor(top: titleTextField.bottomAnchor,
-                              paddingTop: 70)
-        registerButton.centerX(inView: self)
-        registerButton.setDimensions(height: 60, width: 160)
+                              left: leftAnchor,
+                              right: rightAnchor,
+                              paddingTop: 80,
+                              paddingLeft: 20,
+                              paddingRight: 20,
+                              height: 60)
     }
     
     func removeViews(views: [UIView]) {
@@ -170,7 +174,7 @@ extension CustomActionSheet: UITextViewDelegate {
         placeholderLabel.isHidden = !textView.text.isEmpty
         
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                         .font: UIFont.KaiseiOpti(size: 18),
+                                                         .font: UIFont.banana(size: 18),
                                                          .kern: 1]
         
         textView.attributedText = NSAttributedString(string: textView.text, attributes: attributes)
@@ -189,7 +193,7 @@ extension CustomActionSheet: UITextFieldDelegate {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white,
-                                                         .font: UIFont.KaiseiOpti(size: 18),
+                                                         .font: UIFont.banana(size: 18),
                                                          .kern: 1]
         switch textField {
         case categoryTextField:

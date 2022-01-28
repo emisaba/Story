@@ -27,7 +27,7 @@ extension UILabel {
         label.textAlignment = alignment
         
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen().withAlphaComponent(0.5),
-                                                         .font: UIFont.KaiseiOpti(size: 18),
+                                                         .font: UIFont.banana(size: 18),
                                                          .kern: 1]
         label.attributedText = NSAttributedString(string: text, attributes: attributes)
         

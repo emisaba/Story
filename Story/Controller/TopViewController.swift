@@ -37,7 +37,6 @@ class TopViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationController?.navigationBar.isHidden = true
     }
     
@@ -131,20 +130,20 @@ class TopViewController: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .customGreen()
+        view.backgroundColor = .customLightOrange()
         
         view.addSubview(segmentControl)
         segmentControl.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                               left: view.leftAnchor,
                               right: view.rightAnchor,
-                              height: 180)
+                              height: 135)
         
         view.addSubview(topCollectionView)
         topCollectionView.anchor(top: segmentControl.bottomAnchor,
                                  left: view.leftAnchor,
                                  bottom: view.bottomAnchor,
                                  right: view.rightAnchor,
-                                 paddingTop: 30)
+                                 paddingTop: 0)
         
 //        view.addSubview(mypageButtonBaseView)
 //        mypageButtonBaseView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,

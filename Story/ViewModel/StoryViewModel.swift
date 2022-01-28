@@ -15,6 +15,10 @@ struct StoryViewModel {
         return story.stories
     }
     
+    var fullStory: String {
+        return stories.joined()
+    }
+    
     var contributers: [URL?] {
         let urls = story.contributers.map { URL(string: $0) }
         return urls

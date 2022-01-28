@@ -102,14 +102,14 @@ extension StoryCollectionView: UICollectionViewDelegate {
         let story = miniStories[indexPath.row].story
         let apporoximateWidth = frame.width - 55
         let size = CGSize(width: apporoximateWidth, height: 1000)
-        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.KaiseiOpti(size: 16)]
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.banana(size: 16)]
         let estimatedFrame = NSString(string: story)
             .boundingRect(with: size,
                           options: .usesLineFragmentOrigin,
                           attributes: attributes,
                           context: nil)
         
-        let estimatedHeight = isVertical ? estimatedFrame.height + 140 :  estimatedFrame.height + 160 
+        let estimatedHeight = isVertical ? estimatedFrame.height + 160 :  estimatedFrame.height + 160
 
         return .init(width: frame.width, height: estimatedHeight)
     }

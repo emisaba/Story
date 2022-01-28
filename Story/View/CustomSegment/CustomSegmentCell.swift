@@ -21,7 +21,6 @@ class CustomSegmentCell: UICollectionViewCell {
     public let imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
-        iv.backgroundColor = .lightGray.withAlphaComponent(0.2)
         iv.layer.cornerRadius = 40
         return iv
     }()
@@ -69,7 +68,7 @@ class CustomSegmentCell: UICollectionViewCell {
     }
     
     func setupTitle(cellType: CellType) {
-        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white,
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
                                                          .font: UIFont.yawarakadragonmini(size: 16),
                                                          .kern: 2]
         

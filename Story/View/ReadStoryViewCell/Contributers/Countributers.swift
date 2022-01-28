@@ -11,6 +11,7 @@ class Countributers: UIView {
         cv.dataSource = self
         cv.register(ContributersCell.self, forCellWithReuseIdentifier: identifier)
         cv.backgroundColor = .white
+        cv.semanticContentAttribute = .forceRightToLeft
         return cv
     }()
     

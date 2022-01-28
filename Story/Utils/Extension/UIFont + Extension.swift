@@ -1,9 +1,6 @@
 import UIKit
 
 extension UIFont {
-    static func gaeguBold(size: CGFloat) -> UIFont {
-        return UIFont(name: "Gaegu-Bold", size: size) ?? .systemFont(ofSize: size)
-    }
     
     static func gaeguRegular(size: CGFloat) -> UIFont {
         return UIFont(name: "Gaegu-Regular", size: size) ?? .systemFont(ofSize: size)
@@ -21,19 +18,19 @@ extension UIFont {
         return UIFont(name: "PierSans-Light", size: size) ?? .systemFont(ofSize: size)
     }
     
-    static func mamelon(size: CGFloat) -> UIFont {
-        return UIFont(name: "Mamelon-5-Hi-Regular", size: size) ?? .systemFont(ofSize: size)
-    }
-    
     static func yawarakadragonmini(size: CGFloat) -> UIFont {
         return UIFont(name: "yawarakadragonmini", size: size) ?? .systemFont(ofSize: size)
     }
     
-    static func KaiseiOpti(size: CGFloat) -> UIFont {
-        return UIFont(name: "KaiseiOpti-Bold", size: size) ?? .systemFont(ofSize: size)
+    static func banana(size: CGFloat) -> UIFont {
+        return UIFont(name: "bananaslipplus", size: size) ?? .systemFont(ofSize: size)
     }
     
-//    static func komadori(size: CGFloat) -> UIFont {
-//        return UIFont(name: "KaiseiOpti-Bold", size: size) ?? .systemFont(ofSize: size)
-//    }
+    static func senobi(size: CGFloat) -> UIFont {
+        return UIFont(name: "Senobi-Gothic-Bold", size: size) ?? .systemFont(ofSize: size)
+    }
+    
+    static func kaisei(size: CGFloat) -> UIFont {
+        return UIFont(name: "KaiseiOpti-Bold", size: size) ?? .systemFont(ofSize: size)
+    }
 }
