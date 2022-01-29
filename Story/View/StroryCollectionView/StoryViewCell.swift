@@ -42,7 +42,6 @@ class StoryViewCell: UICollectionViewCell {
     private let userIcon: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 18
         iv.clipsToBounds = true
         return iv
     }()
@@ -73,6 +72,7 @@ class StoryViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        backgroundColor = .clear
         configureHorizontalUI()
     }
     
@@ -110,9 +110,9 @@ class StoryViewCell: UICollectionViewCell {
                         bottom: bottomAnchor,
                         right: rightAnchor,
                         paddingTop: 15,
-                        paddingLeft: 15,
+                        paddingLeft: 20,
                         paddingBottom: 15,
-                        paddingRight: 15)
+                        paddingRight: 20)
         
         cardView.addSubview(textView)
         textView.anchor(top: cardView.topAnchor,
@@ -123,13 +123,13 @@ class StoryViewCell: UICollectionViewCell {
                         paddingLeft: 15,
                         paddingBottom: 55,
                         paddingRight: 15)
-        textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
 
         cardView.addSubview(userNameLabel)
         userNameLabel.anchor(bottom: cardView.bottomAnchor,
                              right: cardView.rightAnchor,
                              paddingBottom: 15,
-                             paddingRight: 15,
+                             paddingRight: 20,
                              height: 30)
 
         addSubview(userIcon)
@@ -142,7 +142,6 @@ class StoryViewCell: UICollectionViewCell {
     }
     
     func configureVerticalUI() {
-        
         subviews.forEach { $0.removeFromSuperview() }
         
         addSubview(trianglePointer)
@@ -193,16 +192,15 @@ class StoryViewCell: UICollectionViewCell {
         userNameLabel.anchor(bottom: cardView.bottomAnchor,
                              right: cardView.rightAnchor,
                              paddingBottom: 10,
-                             paddingRight: 10,
+                             paddingRight: 15,
                              height: 30)
 
         addSubview(userIcon)
-        userIcon.layer.cornerRadius = 15
         userIcon.anchor(bottom: cardView.bottomAnchor,
                         right: userNameLabel.leftAnchor,
                         paddingBottom: 10,
                         paddingRight: 10)
-        userIcon.setDimensions(height: 30, width: 30)
+        userIcon.setDimensions(height: 36, width: 36)
         userIcon.centerY(inView: userNameLabel)
 
     }
@@ -219,7 +217,7 @@ class StoryViewCell: UICollectionViewCell {
         textView.attributedText = NSAttributedString(string: viewModel.text, attributes: textviewAttributes)
         
         let usernameAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                                 .font: UIFont.banana(size: 14),
+                                                                 .font: UIFont.banana(size: 16),
                                                                  .kern: 1]
         userNameLabel.attributedText = NSAttributedString(string: viewModel.name, attributes: usernameAttributes)
         

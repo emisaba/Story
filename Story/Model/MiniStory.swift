@@ -1,4 +1,5 @@
 import UIKit
+import Firebase
 
 struct MiniStory {
     let userName: String
@@ -7,6 +8,7 @@ struct MiniStory {
     let story: String
     let storyID: String
     let lastStoryID: String?
+    let timestamp: Timestamp
     
     init(data: [String: Any]) {
         self.userName = data["userName"] as? String ?? ""
@@ -15,5 +17,6 @@ struct MiniStory {
         self.story = data["story"] as? String ?? ""
         self.storyID = data["storyID"] as? String ?? ""
         self.lastStoryID = data["lastStoryID"] as? String ?? ""
+        self.timestamp = data["timestamp"] as? Timestamp ?? Timestamp()
     }
 }

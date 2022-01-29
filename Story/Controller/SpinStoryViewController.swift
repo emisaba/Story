@@ -13,7 +13,7 @@ class SpinStoryViewController: UIViewController {
     }()
     
     public lazy var topStoryCollectionView: StoryCollectionView = {
-        let view = StoryCollectionView(frame: .zero, collectionViewLayout: horizontalLayout, isVertical: false, isTop: false)
+        let view = StoryCollectionView(frame: .zero, collectionViewLayout: horizontalLayout, isVertical: false)
         view.delegateForSpinViewController = self
         return view
     }()
@@ -25,7 +25,7 @@ class SpinStoryViewController: UIViewController {
     }()
     
     public lazy var choicesStoryCollectionView: StoryCollectionView = {
-        let view = StoryCollectionView(frame: .zero, collectionViewLayout: verticalLayout, isVertical: true, isTop: false)
+        let view = StoryCollectionView(frame: .zero, collectionViewLayout: verticalLayout, isVertical: true)
         view.delegateForSpinViewController = self
         return view
     }()
@@ -53,17 +53,11 @@ class SpinStoryViewController: UIViewController {
         button.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         button.backgroundColor = .customGreen()
         button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
+        button.layer.shadowColor = UIColor.lightGray.cgColor
+        button.layer.shadowOffset = CGSize(width: 5, height: 5)
+        button.layer.shadowRadius = 10
+        button.layer.shadowOpacity = 0.7
         return button
-    }()
-    
-    private let addButtonShdow: UIView = {
-        let shadowView = UIView()
-        shadowView.layer.shadowColor = UIColor.lightGray.cgColor
-        shadowView.layer.shadowOffset = CGSize(width: 5, height: 5)
-        shadowView.layer.shadowRadius = 10
-        shadowView.layer.shadowOpacity = 0.7
-        shadowView.backgroundColor = .white
-        return shadowView
     }()
     
     private let closeButton = UIButton.createImageButton(target: self, action: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow"))
@@ -114,9 +108,21 @@ class SpinStoryViewController: UIViewController {
         }
     }
     
-    func spinStory() {
+    func spinStory(story: String) {
         
-        let stories = topStoryCollectionView.miniStories
+        guard let lastStoryID = topStoryCollectionView.miniStories.last?.storyID else { return }
+        guard let userName = user?.userName else { return }
+        guard let userImage = user?.userImage else { return }
+        
+        let data:[String: Any] = ["userName": userName,
+                                  "userImageUrl": userImage,
+                                  "story": story,
+                                  "storyID": "",
+                                  "lastStoryID": lastStoryID]
+        
+        let newStory = MiniStory(data: data)
+        var stories = topStoryCollectionView.miniStories
+        stories.append(newStory)
         
         StoryService.spinStory(miniStories: stories) { error in
             if let error = error {
@@ -129,6 +135,15 @@ class SpinStoryViewController: UIViewController {
             UIView.animate(withDuration: 0.25) {
                 self.actionSheet.frame.origin.y = self.view.frame.height
                 self.view.endEditing(true)
+                
+                self.pagesCount.numberOfPages = stories.count
+                self.pagesCount.currentPage = stories.count
+                
+            } completion: { _ in
+                
+                UIView.animate(withDuration: 0.25, delay: 0.5) {
+                    self.topStoryCollectionView.miniStories.append(newStory)
+                }
             }
         }
     }
@@ -198,7 +213,7 @@ class SpinStoryViewController: UIViewController {
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            left: view.leftAnchor,
-                           paddingTop: -30,
+                           paddingTop: -38,
                            paddingLeft: 20)
         closeButton.setDimensions(height: 50, width: 50)
     }
@@ -226,22 +241,15 @@ extension SpinStoryViewController: HeroViewControllerDelegate {
         choicesStoryCollectionView.anchor(top: topStoryCollectionView.bottomAnchor,
                                           left: view.leftAnchor,
                                           bottom: view.bottomAnchor,
-                                          right: view.rightAnchor,
-                                          paddingTop: 30)
+                                          right: view.rightAnchor)
         
         view.addSubview(topStoryCollectionView)
         topStoryCollectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                       left: view.leftAnchor,
                                       bottom: choicesStoryCollectionView.topAnchor,
                                       right: view.rightAnchor,
-                                      paddingTop: 30, paddingBottom: 40)
-        topStoryCollectionView.backgroundColor = .systemPink
-        view.layoutIfNeeded()
-        
-        view.addSubview(addButtonShdow)
-        addButtonShdow.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 10)
-        addButtonShdow.setDimensions(height: 40, width: 50)
-        addButtonShdow.centerX(inView: view)
+                                      paddingTop: 30,
+                                      paddingBottom: 40)
         
         view.addSubview(addButton)
         addButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
@@ -252,12 +260,12 @@ extension SpinStoryViewController: HeroViewControllerDelegate {
         pagesCount.anchor(left: view.leftAnchor,
                           bottom: choicesStoryCollectionView.topAnchor,
                           right: view.rightAnchor,
-                          height: 50)
+                          height: 35)
         
         view.addSubview(saveButton)
         saveButton.anchor(bottom: choicesStoryCollectionView.topAnchor,
                           right: view.rightAnchor,
-                          paddingBottom: -10,
+                          paddingBottom: -20,
                           paddingRight: 20)
         saveButton.setDimensions(height: 40, width: 40)
         
@@ -294,21 +302,7 @@ extension SpinStoryViewController: CustomActionSheetDelegate {
     }
     
     func addStory(story: String) {
-        
-        guard let lastStoryID = topStoryCollectionView.miniStories.last?.storyID else { return }
-        guard let userName = user?.userName else { return }
-        guard let userImage = user?.userImage else { return }
-        
-        let data:[String: Any] = ["userName": userName,
-                                  "userImageUrl": userImage,
-                                  "story": story,
-                                  "storyID": "",
-                                  "lastStoryID": lastStoryID]
-        
-        let story = MiniStory(data: data)
-        topStoryCollectionView.miniStories.append(story)
-        
-        spinStory()
+        spinStory(story: story)
     }
     
     func cancel() {

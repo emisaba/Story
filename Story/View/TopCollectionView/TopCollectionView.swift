@@ -2,7 +2,7 @@ import UIKit
 
 protocol TopCollectionViewDelegate {
     func didTapReadCell(selectedCell: UICollectionViewCell, story: Story)
-    func didTapSpinCell(selectedCell: UICollectionViewCell, story: [MiniStory])
+    func didTapSpinCell(selectedCell: UICollectionViewCell, story: MiniStory)
     func didRegisterStory(cell: BeginStoryViewCell)
 }
 
@@ -22,7 +22,7 @@ class TopCollectionView: UIView {
         cv.delegate = self
         cv.register(cellType.type.self, forCellWithReuseIdentifier: identifier)
         cv.backgroundColor = .customGreen()
-        cv.contentInset = UIEdgeInsets(top: 30, left: 20, bottom: 20, right: 20)
+        cv.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
         return cv
     }()
     
@@ -48,7 +48,6 @@ class TopCollectionView: UIView {
     // MARK: - Lifecycle
     
     init(frame: CGRect, cellType: CellType) {
-        
         self.cellType = cellType
         
         super.init(frame: frame)
@@ -119,8 +118,7 @@ extension TopCollectionView: UICollectionViewDataSource {
             
         case .spin:
             let cell = cell as! SpinStoryViewCell
-            cell.storyCollectionView.delegateForTopViewController = self
-            cell.storyCollectionView.miniStories = miniStories
+            cell.viewModel = MiniStoryViewModel(story: miniStories[indexPath.row], cellNumber: indexPath.row, isVartical: true)
             return cell
             
         case .read:
@@ -136,8 +134,17 @@ extension TopCollectionView: UICollectionViewDataSource {
 extension TopCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ReadStoryViewCell else { return }
-        delegate?.didTapReadCell(selectedCell: cell, story: stories[indexPath.row])
+        
+        switch cellType {
+        case .begin:
+            break
+        case .spin:
+            guard let cell = collectionView.cellForItem(at: indexPath) as? SpinStoryViewCell else { return }
+            delegate?.didTapSpinCell(selectedCell: cell, story: miniStories[indexPath.row])
+        case .read:
+            guard let cell = collectionView.cellForItem(at: indexPath) as? ReadStoryViewCell else { return }
+            delegate?.didTapReadCell(selectedCell: cell, story: stories[indexPath.row])
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -148,18 +155,17 @@ extension TopCollectionView: UICollectionViewDelegate {
             return CGSize(width: frame.width, height: frame.height - (keyboardHeight - 30))
             
         case .spin:
-            
             let story = miniStories[indexPath.row].story
-            let apporoximateWidth = frame.width - 40
+            let apporoximateWidth = frame.width - 60
             let size = CGSize(width: apporoximateWidth, height: 1000)
-            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.banana(size: 16)]
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.banana(size: 18)]
             let estimatedFrame = NSString(string: story)
                 .boundingRect(with: size,
                               options: .usesLineFragmentOrigin,
                               attributes: attributes,
                               context: nil)
         
-            return CGSize(width: frame.width, height: estimatedFrame.height + 160)
+            return CGSize(width: frame.width, height: estimatedFrame.height + 80)
             
         case .read:
             let frame = CGRect(x: 0, y: 0, width: frame.width, height: 180)
@@ -180,14 +186,6 @@ extension TopCollectionView: UICollectionViewDelegate {
 extension TopCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 30
-    }
-}
-
-// MARK: - StoryCollectionViewCell
-
-extension TopCollectionView: storyViewDelegateForTopViewController {    
-    func didSelectTopSpinCell(selectedCell: StoryViewCell, story: [MiniStory]) {
-        delegate?.didTapSpinCell(selectedCell: selectedCell, story: story)
     }
 }
 

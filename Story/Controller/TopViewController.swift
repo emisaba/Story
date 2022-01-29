@@ -43,7 +43,6 @@ class TopViewController: UIViewController {
     // MARK: - API
     
     func uploadStory(cell: BeginStoryViewCell) {
-        
         guard let miniStory = cell.textView.text else { return }
         
         StoryService.uploadMiniStory(miniStory: miniStory) { error in
@@ -145,17 +144,17 @@ class TopViewController: UIViewController {
                                  right: view.rightAnchor,
                                  paddingTop: 0)
         
-//        view.addSubview(mypageButtonBaseView)
-//        mypageButtonBaseView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
-//                                    right: view.rightAnchor,
-//                                    paddingBottom: -110, paddingRight: -80)
-//        mypageButtonBaseView.setDimensions(height: 200, width: 200)
-//        
-//        mypageButtonBaseView.addSubview(myPageButton)
-//        myPageButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
-//                            right: view.rightAnchor,
-//                            paddingRight: 20)
-//        myPageButton.setDimensions(height: 60, width: 60)
+        view.addSubview(mypageButtonBaseView)
+        mypageButtonBaseView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                    right: view.rightAnchor,
+                                    paddingBottom: -110, paddingRight: -80)
+        mypageButtonBaseView.setDimensions(height: 200, width: 200)
+        
+        mypageButtonBaseView.addSubview(myPageButton)
+        myPageButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                            right: view.rightAnchor,
+                            paddingRight: 20)
+        myPageButton.setDimensions(height: 60, width: 60)
     }
 }
 
@@ -184,7 +183,7 @@ extension TopViewController: TopCollectionViewDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func didTapSpinCell(selectedCell: UICollectionViewCell, story: [MiniStory]) {
+    func didTapSpinCell(selectedCell: UICollectionViewCell, story: MiniStory) {
         
         let indexPath = IndexPath(row: 1, section: 0)
         guard let selectedCategory = segmentControl.collectionView.cellForItem(at: indexPath) as? CustomSegmentCell else { return }
@@ -195,10 +194,9 @@ extension TopViewController: TopCollectionViewDelegate {
         
         let vc = SpinStoryViewController()
         vc.topStoryCollectionView.hero.id = "selectCell"
-        vc.topStoryCollectionView.miniStories = story
+        vc.topStoryCollectionView.miniStories = [story]
         
-        guard let firstStory = story.first else { return }
-        vc.fetchChoicesStories(story: firstStory)
+        vc.fetchChoicesStories(story: story)
         
         navigationController?.isHeroEnabled = true
         navigationController?.pushViewController(vc, animated: true)

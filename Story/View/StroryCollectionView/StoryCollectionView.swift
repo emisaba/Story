@@ -20,13 +20,12 @@ class StoryCollectionView: UICollectionView {
     private var isVertical = false {
         didSet { reloadData() }
     }
-    private var isTop = false {
-        didSet { reloadData() }
-    }
     
     public var miniStories = [MiniStory]() {
         didSet {
             reloadData()
+            
+            if  isVertical { return }
             
             isPagingEnabled = false
             scrollToItem(at: IndexPath(item: miniStories.count - 1, section: 0), at: .centeredHorizontally, animated: true)
@@ -36,9 +35,8 @@ class StoryCollectionView: UICollectionView {
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout, isVertical: Bool, isTop: Bool) {
+    init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout, isVertical: Bool) {
         self.isVertical = isVertical
-        self.isTop = isTop
         super.init(frame: frame, collectionViewLayout: layout)
         
         configureUI()
@@ -56,9 +54,7 @@ class StoryCollectionView: UICollectionView {
         register(StoryViewCell.self, forCellWithReuseIdentifier: identifier)
         
         if isVertical {
-            contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
             backgroundColor = .init(white: 1, alpha: 0.95)
-            isPagingEnabled = false
             showsVerticalScrollIndicator = false
         } else {
             backgroundColor = .customGreen()
@@ -92,7 +88,7 @@ extension StoryCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == 0 { return }
-        
+
         guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) else { return }
         cell.isSelected = false
     }
@@ -109,7 +105,7 @@ extension StoryCollectionView: UICollectionViewDelegate {
                           attributes: attributes,
                           context: nil)
         
-        let estimatedHeight = isVertical ? estimatedFrame.height + 160 :  estimatedFrame.height + 160
+        let estimatedHeight = isVertical ? estimatedFrame.height + 160 : 230
 
         return .init(width: frame.width, height: estimatedHeight)
     }
@@ -131,7 +127,9 @@ extension StoryCollectionView: UICollectionViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension StoryCollectionView: UICollectionViewDelegateFlowLayout {
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: isVertical ? 20 : 0, left: 0, bottom:  isVertical ? 100 : 0, right: 0)
+    }
 }
 
 // MARK: - UIScrollViewDelegate

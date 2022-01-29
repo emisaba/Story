@@ -41,7 +41,7 @@ class BeginStoryViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .customGreen()
+        backgroundColor = .clear
         
         addSubview(registerButton)
         registerButton.anchor(bottom: bottomAnchor)

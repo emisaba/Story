@@ -14,7 +14,8 @@ struct StoryService {
                                        "userImageUrl": user.userImage,
                                        "story": miniStory,
                                        "storyID": docRef.documentID,
-                                       "lastStoryID": ""]
+                                       "lastStoryID": "",
+                                       "timestamp": Timestamp()]
             
             docRef.setData(data, completion: completion)
         }
@@ -26,18 +27,27 @@ struct StoryService {
     
     static func fetchMiniStories(completion: @escaping([MiniStory]) -> Void) {
         
-        COLLECTION_MINISTORY.whereField("lastStoryID", isEqualTo: "").getDocuments { snapshot, error in
-            
-            if let error = error {
-                print("fetch story error: \(error.localizedDescription)")
-                return
+        COLLECTION_MINISTORY.order(by: "timestamp", descending: true)
+            .getDocuments { snapshot, error in
+                
+                if let error = error {
+                    print("fetch story error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let document = snapshot?.documents else { return }
+                let miniStories = document.map { MiniStory(data: $0.data()) }
+                
+                var firstStories: [MiniStory] = []
+                
+                miniStories.forEach { story in
+                    if story.lastStoryID == "" {
+                        firstStories.append(story)
+                    }
+                }
+                
+                completion(firstStories)
             }
-            
-            guard let document = snapshot?.documents else { return }
-            
-            let miniStories = document.map { MiniStory(data: $0.data()) }
-            completion(miniStories)
-        }
     }
     
     static func fetchChoicesStories(miniStory: MiniStory, completion: @escaping([MiniStory]) -> Void) {
@@ -55,7 +65,7 @@ struct StoryService {
                 let stories = document.map { MiniStory(data: $0.data()) }
                 
                 completion(stories)
-        }
+            }
     }
     
     static func spinStory(miniStories: [MiniStory], completion: @escaping(Error?) -> Void) {
@@ -63,7 +73,9 @@ struct StoryService {
         
         let storyIDs = miniStories.map { $0.storyID }
         let docRef = COLLECTION_INCOMPLETED_STORY.document()
-        let data: [String: Any] = ["storyIDs": storyIDs, "storyID": docRef.documentID]
+        let data: [String: Any] = ["storyIDs": storyIDs,
+                                   "storyID": docRef.documentID,
+                                   "timestamp": Timestamp()]
         
         docRef.setData(data) { error in
             if let error = error {
@@ -80,7 +92,8 @@ struct StoryService {
                                            "userImageUrl": user.userImage,
                                            "story": story.story,
                                            "storyID": docRef.documentID,
-                                           "lastStoryID": story.lastStoryID ?? ""]
+                                           "lastStoryID": story.lastStoryID ?? "",
+                                           "timestamp": Timestamp()]
                 
                 docRef.setData(data, completion: completion)
             }
@@ -94,7 +107,8 @@ struct StoryService {
                                    "title": story.title,
                                    "stories": story.miniStories,
                                    "contributers": story.contributers,
-                                   "uid": uid]
+                                   "uid": uid,
+                                   "timestamp": Timestamp()]
         
         COLLECTION_COMPLETED_STORY.addDocument(data: data, completion: completion)
     }
