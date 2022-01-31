@@ -42,28 +42,30 @@ class ReadStoryViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(titleLabel)
-        titleLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 30)
+        titleLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 20)
         titleLabel.centerX(inView: view)
         
         view.addSubview(contributedUsers)
-        contributedUsers.anchor(top: titleLabel.bottomAnchor,
+        contributedUsers.anchor(left: view.leftAnchor,
+                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                 right: view.rightAnchor,
-                                paddingTop: 30,
-                                paddingRight: 10)
-        contributedUsers.setDimensions(height: 50, width: view.frame.width / 2)
+                                paddingLeft: 20,
+                                paddingRight: 20,
+                                height: 50)
         contributedUsers.backgroundColor = .white
         
         view.addSubview(storyTextView)
-        storyTextView.anchor(top: contributedUsers.bottomAnchor,
+        storyTextView.anchor(top: titleLabel.bottomAnchor,
                              left: view.leftAnchor,
-                             bottom: view.bottomAnchor,
+                             bottom: contributedUsers.topAnchor,
                              right: view.rightAnchor,
-                             paddingTop: 30)
+                             paddingTop: 20,
+                             paddingBottom: 30)
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            right: view.rightAnchor,
-                           paddingTop: -10,
+                           paddingTop: -30,
                            paddingRight: 20)
         closeButton.setDimensions(height: 50, width: 50)
     }
@@ -72,7 +74,7 @@ class ReadStoryViewController: UIViewController {
         
         guard let category = viewModel?.category else { return }
         guard let title = viewModel?.title else { return }
-        guard let story = viewModel?.stories.joined(separator: " ") else { return }
+        guard let story = viewModel?.stories.joined(separator: "\n\n") else { return }
         guard let contributers = viewModel?.contributers as? [URL] else { return }
         
         categoryLabel.text = category

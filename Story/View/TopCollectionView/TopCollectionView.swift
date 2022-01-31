@@ -88,6 +88,11 @@ class TopCollectionView: UIView {
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
     }
+    
+    func afterRegisterStory() {
+        cellType = .read
+        collectionView.reloadData()
+    }
 }
 
 // MARK: - UICollectionViewDataSource

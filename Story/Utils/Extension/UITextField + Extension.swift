@@ -13,6 +13,7 @@ extension UITextField {
         textField.leftViewMode = .always
         textField.backgroundColor = .customGreen()
         textField.tintColor = .lightGray
+        textField.keyboardType = .webSearch
         
         let textviewAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white.withAlphaComponent(0.3),
                                                                  .font: UIFont.banana(size: 18),

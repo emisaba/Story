@@ -115,7 +115,9 @@ struct StoryService {
     
     static func fetchCompleteStory(completion: @escaping (([Story]) -> Void)) {
         
-        COLLECTION_COMPLETED_STORY.getDocuments { snapshot, error in
+        COLLECTION_COMPLETED_STORY.order(by: "timestamp", descending: true)
+            .getDocuments { snapshot, error in
+                
             if let error = error {
                 print("failed to fetch completeStory: \(error.localizedDescription)")
             }

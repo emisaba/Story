@@ -19,11 +19,18 @@ class TopViewController: UIViewController {
     }()
     
     private var stories: [Story] = [] {
-        didSet { self.topCollectionView.stories = stories }
+        didSet {
+            self.topCollectionView.stories = stories
+            self.topCollectionView.collectionView.reloadData()
+        }
     }
     
     private let myPageButton = UIButton.createImageButton(target: self, action: #selector(didTapMyPageButton), image: #imageLiteral(resourceName: "arrow"))
     private let mypageButtonBaseView = UIView.createButtonBaseView(isTop: false)
+    
+    public var didStoryRegister = false {
+        didSet { fetchStories() }
+    }
     
     // MARK: - LifeCycle
     
@@ -57,6 +64,12 @@ class TopViewController: UIViewController {
     func fetchStories() {
         StoryService.fetchCompleteStory { stories in
             self.stories = stories
+            
+            if self.didStoryRegister {
+                self.segmentControl.afterRegisterStory()
+                self.createTopCollectionView(cellType: .read)
+                self.didStoryRegister = false
+            }
         }
     }
     
@@ -193,6 +206,9 @@ extension TopViewController: TopCollectionViewDelegate {
         selectedCell.hero.id = "selectCell"
         
         let vc = SpinStoryViewController()
+        vc.completeRegister = { didComplete in
+            self.didStoryRegister = true
+        }
         vc.topStoryCollectionView.hero.id = "selectCell"
         vc.topStoryCollectionView.miniStories = [story]
         

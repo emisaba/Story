@@ -15,12 +15,18 @@ class CustomActionSheet: UIView {
     public lazy var cancelButton = UIButton.createImageButton(target: self, action: #selector(didTapCancelButton), image: #imageLiteral(resourceName: "close"))
     public lazy var registerButton = UIButton.createTextButton(text: "登録", target: self, action: #selector(didTapRegisterButton))
     
-    public lazy var textView = UITextView.createRegisterStoryTextView()
+    public lazy var storyTextView = UITextView.createRegisterStoryTextView()
     private let placeholderLabel = UILabel.createLabel(text: "ストーリーを入力してください...", size: 18, alignment: .left)
     private let countLabel = UILabel.createLabel(text: "0/140", size: 16, alignment: .right)
     
-    private let categoryTextField = UITextField.createTextField(placeholder: "カテゴリを入力")
-    private let titleTextField = UITextField.createTextField(placeholder: "タイトルを入力")
+//    private let categoryTextField = UITextField.createTextField(placeholder: "カテゴリを入力")
+//    private let titleTextField = UITextField.createTextField(placeholder: "タイトルを入力")
+    
+    private lazy var categoryTextField = createTextView()
+    private lazy var categoryTextFieldPlaceholder = createLabel(text: "カテゴリを入力")
+    
+    private lazy var titleTextField = createTextView()
+    private lazy var titleTextFieldPlaceholder = createLabel(text: "タイトルを入力")
     
     public var isAdd = false {
         didSet {
@@ -28,7 +34,7 @@ class CustomActionSheet: UIView {
                 removeViews(views: [categoryTextField, titleTextField])
                 setupAddView()
             } else {
-                removeViews(views: [textView, placeholderLabel, countLabel])
+                removeViews(views: [storyTextView, placeholderLabel, countLabel])
                 setupCompleteView()
             }
         }
@@ -56,7 +62,7 @@ class CustomActionSheet: UIView {
     @objc func didTapRegisterButton() {
         
         if isAdd {
-            guard let story = textView.text else { return }
+            guard let story = storyTextView.text else { return }
             delegate?.addStory(story: story)
             
         } else {
@@ -75,10 +81,10 @@ class CustomActionSheet: UIView {
     
     func setupAddView() {
         
-        textView.delegate = self
+        storyTextView.delegate = self
         
-        addSubview(textView)
-        textView.anchor(top: cancelButton.bottomAnchor,
+        addSubview(storyTextView)
+        storyTextView.anchor(top: cancelButton.bottomAnchor,
                         left: leftAnchor,
                         right: rightAnchor,
                         paddingTop: 20,
@@ -86,15 +92,15 @@ class CustomActionSheet: UIView {
                         paddingRight: 20,
                         height: 290)
         
-        textView.addSubview(placeholderLabel)
-        placeholderLabel.anchor(top: textView.topAnchor,
-                                left: textView.leftAnchor,
-                                right: textView.rightAnchor,
+        storyTextView.addSubview(placeholderLabel)
+        placeholderLabel.anchor(top: storyTextView.topAnchor,
+                                left: storyTextView.leftAnchor,
+                                right: storyTextView.rightAnchor,
                                 paddingTop: 15,
                                 paddingLeft: 13)
         
         addSubview(countLabel)
-        countLabel.anchor(bottom: textView.bottomAnchor,
+        countLabel.anchor(bottom: storyTextView.bottomAnchor,
                           right: rightAnchor,
                           paddingBottom: 15,
                           paddingRight: 35,
@@ -102,7 +108,7 @@ class CustomActionSheet: UIView {
         
         addSubview(registerButton)
         registerButton.setTitleColor(.white, for: .normal)
-        registerButton.anchor(top: textView.bottomAnchor,
+        registerButton.anchor(top: storyTextView.bottomAnchor,
                               left: leftAnchor,
                               right: rightAnchor,
                               paddingTop: 30,
@@ -120,10 +126,16 @@ class CustomActionSheet: UIView {
         categoryTextField.anchor(top: cancelButton.bottomAnchor,
                                  left: leftAnchor,
                                  right: rightAnchor,
-                                 paddingTop: 50,
+                                 paddingTop: 55,
                                  paddingLeft: 30,
                                  paddingRight: 30,
-                                 height: 60)
+                                 height: 50)
+        
+        categoryTextField.addSubview(categoryTextFieldPlaceholder)
+        categoryTextFieldPlaceholder.anchor(top:categoryTextField.topAnchor,
+                                            left: categoryTextField.leftAnchor,
+                                            paddingTop: 5,
+                                            paddingLeft: 5)
         
         let categoryBottomView = UIView()
         categoryBottomView.backgroundColor = .white
@@ -131,16 +143,22 @@ class CustomActionSheet: UIView {
         categoryBottomView.anchor(left: categoryTextField.leftAnchor,
                                   bottom: categoryTextField.bottomAnchor,
                                   right: categoryTextField.rightAnchor,
-                                  height: 0.5)
+                                  height: 1)
         
         addSubview(titleTextField)
         titleTextField.anchor(top: categoryTextField.bottomAnchor,
                               left: leftAnchor,
                               right: rightAnchor,
-                              paddingTop: 20,
+                              paddingTop: 42,
                               paddingLeft: 30,
                               paddingRight: 30,
-                              height: 60)
+                              height: 50)
+        
+        titleTextField.addSubview(titleTextFieldPlaceholder)
+        titleTextFieldPlaceholder.anchor(top: titleTextField.topAnchor,
+                                         left: titleTextField.leftAnchor,
+                                         paddingTop: 5,
+                                         paddingLeft: 5)
         
         let titleBottomView = UIView()
         titleBottomView.backgroundColor = .white
@@ -148,7 +166,7 @@ class CustomActionSheet: UIView {
         titleBottomView.anchor(left: titleTextField.leftAnchor,
                                bottom: titleTextField.bottomAnchor,
                                right: titleTextField.rightAnchor,
-                               height: 0.5)
+                               height: 1)
         
         addSubview(registerButton)
         registerButton.setTitleColor(.white, for: .normal)
@@ -161,6 +179,26 @@ class CustomActionSheet: UIView {
                               height: 60)
     }
     
+    func createTextView() -> UITextView {
+        let tv = UITextView()
+//        tv.textContainerInset = UIEdgeInsets(top: 15, left: 10, bottom: 10, right: 10)
+//        tv.layer.cornerRadius = 20
+        tv.tintColor = .lightGray
+        tv.font = UIFont.systemFont(ofSize: 18)
+        tv.backgroundColor = .customGreen()
+        tv.delegate = self
+        return tv
+    }
+    
+    func createLabel(text: String) -> UILabel {
+        let label = UILabel()
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.lightGray,
+                                                         .font: UIFont.banana(size: 18),
+                                                         .kern: 1]
+        label.attributedText = NSAttributedString(string: text, attributes: attributes)
+        return label
+    }
+    
     func removeViews(views: [UIView]) {
         views.forEach { $0.removeFromSuperview() }
     }
@@ -170,20 +208,44 @@ class CustomActionSheet: UIView {
 
 extension CustomActionSheet: UITextViewDelegate {
     
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        placeholderLabel.isHidden = !textView.text.isEmpty
-        
-        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
-                                                         .font: UIFont.banana(size: 18),
-                                                         .kern: 1]
-        
-        textView.attributedText = NSAttributedString(string: textView.text, attributes: attributes)
-        
-        let countAttributedText = NSMutableAttributedString(string: "\(textView.text.count)", attributes: attributes)
-        countAttributedText.append(NSAttributedString(string: "/140", attributes: attributes))
-        countLabel.attributedText = countAttributedText
-        
-        if textView.text.count > 140 { textView.deleteBackward() }
+    func textViewDidChange(_ textView: UITextView) {
+        switch textView {
+        case storyTextView:
+            placeholderLabel.isHidden = !textView.text.isEmpty
+            
+            let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.customGreen(),
+                                                             .font: UIFont.banana(size: 18),
+                                                             .kern: 1]
+            
+            textView.attributedText = NSAttributedString(string: textView.text, attributes: attributes)
+            
+            let countAttributedText = NSMutableAttributedString(string: "\(textView.text.count)", attributes: attributes)
+            countAttributedText.append(NSAttributedString(string: "/140", attributes: attributes))
+            countLabel.attributedText = countAttributedText
+            
+            if textView.text.count > 140 { textView.deleteBackward() }
+            
+        case categoryTextField:
+            categoryTextFieldPlaceholder.isHidden = !textView.text.isEmpty
+            
+            let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white,
+                                                             .font: UIFont.banana(size: 18),
+                                                             .kern: 1]
+            
+            textView.attributedText = NSAttributedString(string: textView.text, attributes: attributes)
+            
+        case titleTextField:
+            titleTextFieldPlaceholder.isHidden = !textView.text.isEmpty
+            
+            let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white,
+                                                             .font: UIFont.banana(size: 18),
+                                                             .kern: 1]
+            
+            textView.attributedText = NSAttributedString(string: textView.text, attributes: attributes)
+            
+        default:
+            break
+        }
     }
 }
 

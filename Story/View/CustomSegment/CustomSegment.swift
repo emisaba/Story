@@ -88,6 +88,11 @@ class CustomSegmentControl: UIView {
         
         return .read
     }
+    
+    func afterRegisterStory() {
+        pointer.center.x = self.frame.width / 6
+        collectionView.reloadData()
+    }
 }
 
 // MARK: - UICollectionViewDataSource

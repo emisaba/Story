@@ -81,6 +81,7 @@ class SpinStoryViewController: UIViewController {
     }()
     
     private var user: User?
+    public var completeRegister: ((Bool)->Void)?
     
     // MARK: - LifeCycle
     
@@ -172,9 +173,13 @@ class SpinStoryViewController: UIViewController {
                 return
             }
             
+            self.completeRegister?(true)
+            
             UIView.animate(withDuration: 0.25) {
                 self.actionSheet.frame.origin.y = self.view.frame.height
                 self.view.endEditing(true)
+            } completion: { _ in
+                self.navigationController?.popViewController(animated: false)
             }
         }
     }

@@ -1,20 +1,9 @@
 import UIKit
 import SDWebImage
 
-protocol StoryViewCellDelegateForTopViewController {
-    func didSelectTopSpinCell(cell: StoryViewCell, story: [MiniStory])
-}
-
-protocol StoryViewCellDelegateForSpinViewController {
-    func didSelectNextStory(cell: StoryViewCell)
-}
-
 class StoryViewCell: UICollectionViewCell {
     
     // MARK: - Properties
-    
-    public var delegateForTopViewController: StoryViewCellDelegateForTopViewController?
-    public var delegateForSpinViewController: StoryViewCellDelegateForSpinViewController?
     
     public var viewModel: MiniStoryViewModel? {
         didSet {
@@ -86,18 +75,6 @@ class StoryViewCell: UICollectionViewCell {
         let height = textView.sizeThatFits(CGSize(width: textView.frame.size.width,
                                                   height: CGFloat.greatestFiniteMagnitude)).height
         textView.heightAnchor.constraint(equalToConstant: height).isActive = true
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        
-        if viewModel?.isVartical == true {
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-                self.delegateForSpinViewController?.didSelectNextStory(cell: self)
-            }
-        } else {
-            delegateForTopViewController?.didSelectTopSpinCell(cell: self, story: story)
-        }
     }
     
     // MARK: - Helper

@@ -25,11 +25,14 @@ class StoryCollectionView: UICollectionView {
         didSet {
             reloadData()
             
-            if  isVertical { return }
-            
-            isPagingEnabled = false
-            scrollToItem(at: IndexPath(item: miniStories.count - 1, section: 0), at: .centeredHorizontally, animated: true)
-            isPagingEnabled = true
+            if  isVertical {
+                contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+                scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            } else {
+                isPagingEnabled = false
+                scrollToItem(at: IndexPath(item: miniStories.count - 1, section: 0), at: .centeredHorizontally, animated: true)
+                isPagingEnabled = true
+            }
         }
     }
     
@@ -73,9 +76,7 @@ extension StoryCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! StoryViewCell
-        cell.backgroundColor = isVertical ? .clear : .customGreen()
-        cell.delegateForTopViewController = self
-        cell.delegateForSpinViewController = self
+        cell.backgroundColor = .clear
         cell.viewModel = MiniStoryViewModel(story: miniStories[indexPath.row], cellNumber: indexPath.row, isVartical: isVertical)
         cell.story = miniStories
         return cell
@@ -87,10 +88,16 @@ extension StoryCollectionView: UICollectionViewDataSource {
 extension StoryCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == 0 { return }
-
-        guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) else { return }
-        cell.isSelected = false
+        guard let defaultSelectedCell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) else { return }
+        guard let selectedCell = collectionView.cellForItem(at: indexPath) as? StoryViewCell else { return }
+        selectedCell.isSelected = true
+        defaultSelectedCell.isSelected = false
+        
+        if isVertical == true {
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                self.delegateForSpinViewController?.didSelectNextStory(selectedCell: selectedCell)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -136,24 +143,10 @@ extension StoryCollectionView: UICollectionViewDelegateFlowLayout {
 
 extension StoryCollectionView: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if isVertical { return }
+        
         let x = targetContentOffset.pointee.x
         let onPage = Int(x / frame.width)
         delegateForSpinViewController?.didDragPage(onPage: onPage)
-    }
-}
-
-// MARK: - StoryViewCellDelegate
-
-extension StoryCollectionView: StoryViewCellDelegateForTopViewController {
-    func didSelectTopSpinCell(cell: StoryViewCell, story: [MiniStory]) {
-        delegateForTopViewController?.didSelectTopSpinCell(selectedCell: cell, story: story)
-    }
-}
-
-// MARK: - StoryViewCellDelegate
-
-extension StoryCollectionView: StoryViewCellDelegateForSpinViewController {
-    func didSelectNextStory(cell: StoryViewCell) {
-        delegateForSpinViewController?.didSelectNextStory(selectedCell: cell)
     }
 }

@@ -34,9 +34,11 @@ class ReadStoryViewCell: UICollectionViewCell {
                              height: 25)
         
         addSubview(titleLabel)
-        titleLabel.anchor(top: categoryLabel.bottomAnchor,
-                          paddingTop: 10, height: 30)
-        titleLabel.centerX(inView: self)
+        titleLabel.anchor(top: categoryLabel.bottomAnchor
+                          ,left: categoryLabel.leftAnchor,
+                          paddingTop: 10,
+                          paddingLeft: -10,
+                          height: 30)
         
         addSubview(storyLabel)
         storyLabel.anchor(top: titleLabel.bottomAnchor,
@@ -51,7 +53,7 @@ class ReadStoryViewCell: UICollectionViewCell {
                                 bottom: bottomAnchor,
                                 right: rightAnchor,
                                 paddingLeft: 20,
-                                paddingBottom: 10,
+                                paddingBottom: 0,
                                 paddingRight: 20,
                                 height: 50)
     }
